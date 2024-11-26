@@ -1,3 +1,4 @@
 compiled/
+clab-asp_sr_mpls_lab/
 .*
 !.gitignore

@@ -1,0 +1,8 @@
+{% for vrf in services.mvpn %}
+{% for interface in vrf.interfaces.vrf %}
+interface {{ interface.name }}
+ vrf {{ vrf.name }}
+  !
+  exit
+{% endfor %}
+{% endfor %}

@@ -1,0 +1,121 @@
+id: 22
+os: iosxr
+ansible_password: cisco123
+napalm_driver: iosxr_netconf
+xr_7: true
+dnx: false
+management_int: 0/RP0/CPU0/0
+max_sid_depth: 6
+asn: 65000
+bgp_rrc: true
+bgp_rr: false
+netflow: false
+xrd: true
+
+optics:
+  - {enable: false}
+
+network_interfaces:
+  - {name: GigabitEthernet0/0/0/0, descr: "ASP - CORE.103", remote_id: 103, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}
+  - {name: GigabitEthernet0/0/0/1, descr: "ASP - CORE.101", remote_id: 101, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}
+  - {name: GigabitEthernet0/0/0/2, descr: "ASP - PE.21", remote_id: 21, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}  
+  - {name: GigabitEthernet0/0/0/3, descr: "ASP - CE.11", remote_id: 11, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 9000}
+  - {name: GigabitEthernet0/0/0/4, descr: "ASP - CE.12", remote_id: 12, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 9000}
+
+Flex_Algo_Membership: {128, 129, 130}
+
+Flex_Affinity:
+   - {interface: Bundle-Ether1000, color: GREEN }
+
+bfd_multipath:
+  - {enable: true, location: 0/RP0/CPU0 }
+
+bundle_members:
+  - {enable: false}
+
+breakout:
+  - {enable: False}
+
+static_routes:
+  - {enable: False}
+
+ebgp_peers:
+  - {enable: false}
+  # - { enable: true, ipv4: 10.62.100.2, remote_asn: 65166.1001, rp4_in: pass-all, rp4_out: pass-all }
+
+ibgp_peers:
+  - {enable: false}
+
+sr_pce:
+  - ip: 1.1.1.51
+    v6: 51:51:51::51
+    precedence: 1
+  - ip: 1.1.1.52
+    v6: 52:52:52::52
+    precedence: 2
+
+route_reflectors:
+  - ip: 1.1.1.51
+    v6: 51:51:51::51
+    precedence: 1
+  - ip: 1.1.1.52
+    v6: 52:52:52::52
+    precedence: 2
+
+
+sr_policy:
+  manual:
+    - { name: TEST_SR_POLICY, color: 100, endpoint: 1.1.1.24, metric_type: igp, pce: false, algo: 0 }
+    - { name: NIMBRA_RED_PLANE, color: 106, endpoint: 1.1.1.24, metric_type: igp, pce: false, algo: 129 }
+
+  odn:
+    - { color: 128, metric_type: igp, pce: false, algo: 128 }
+    - { color: 129, metric_type: igp, pce: false, algo: 129 }
+    - { color: 130, metric_type: latency, pce: false, algo: 130 }
+
+igmp:
+  interfaces:
+
+services:
+  l2transport_interfaces:
+    # - {name: HundredGigE0/0/0/3, descr: "EVPN VPWS P2P NIMBRA DC1", vlan: 0, rewrite: none }
+
+  l3_interfaces:
+#  - {name: TenGigE0/0/0/0, descr: "Internet Traffic interface", vlan: 1111, ipv4: 11.11.11.1/24, ipv6: '11:11:11:0/127', mtu: 9192}
+    # - {name: Loopback10, descr: "ASP VIDEO ANYCAST RP INTERFACE", vlan: 0, ipv4: 10.200.200.1/32, ipv6: '2000::10:200:200:1/128'}
+    - {name: Loopback128, descr: "ASP TEST BLUE VRF INTERFACE", vlan: 0, ipv4: 10.62.128.1/32, ipv6: '2000::10:62:128:1/128'}
+    - {name: Loopback129, descr: "ASP TEST RED VRF INTERFACE", vlan: 0, ipv4: 10.62.129.1/32, ipv6: '2000::10:62:129:1/128'}
+    - {name: GigabitEthernet0/0/0/3, descr: "ASP - CE.11 VRF BLUE", vlan: 101, ipv4: 10.11.22.1/31, ipv6: '2001::10:11:22:1/127'}
+    - {name: GigabitEthernet0/0/0/3, descr: "ASP - CE.11 VRF RED", vlan: 102, ipv4: 10.11.22.1/31, ipv6: '2001::10:11:22:1/127'}
+    - {name: GigabitEthernet0/0/0/4, descr: "ASP - CE.12 VRF BLUE", vlan: 101, ipv4: 10.12.22.1/31, ipv6: '2001::10:12:22:1/127'}
+    - {name: GigabitEthernet0/0/0/4, descr: "ASP - CE.12 VRF RED", vlan: 102, ipv4: 10.12.22.1/31, ipv6: '2001::10:12:22:1/127'}
+
+  evpn_vpws:
+#    - { name: RED_NIMBRA_DC1_NIMBRA_DC2, interface: HundredGigE0/0/0/3, evi: 106, sr_policy: NIMBRA_RED_PLANE }
+
+
+  l3vpn:
+    - name: BLUE
+      rd: auto
+      vpn_id: 128
+      algo_map: ALGO-BLUE 
+      interfaces: 
+        - { name: Loopback128 }
+        - { name: GigabitEthernet0/0/0/3.101}
+        - { name: GigabitEthernet0/0/0/4.101}
+      bgp_neighbors:
+        - { enable: true, ipv4: 10.11.22.0, remote_asn: 65100, rp4_in: pass-all, rp4_out: pass-all }
+        - { enable: true, ipv4: 10.12.22.0, remote_asn: 65100, rp4_in: pass-all, rp4_out: pass-all }
+
+    - name: RED
+      rd: auto
+      vpn_id: 129
+      algo_map: ALGO-RED 
+      interfaces: 
+        - { name: Loopback129 }
+        - { name: GigabitEthernet0/0/0/3.102}
+        - { name: GigabitEthernet0/0/0/4.102}
+      bgp_neighbors:
+        - { enable: true, ipv4: 10.11.22.0, remote_asn: 65100, rp4_in: pass-all, rp4_out: pass-all }
+        - { enable: true, ipv4: 10.12.22.0, remote_asn: 65100, rp4_in: pass-all, rp4_out: pass-all }
+

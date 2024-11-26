@@ -1,0 +1,8 @@
+---
+- name: Build testbed
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  roles:
+  - env_var

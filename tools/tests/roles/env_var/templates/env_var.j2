@@ -1,0 +1,64 @@
+{# Step 1: Specify the commands that you would like to test #}
+commands = [
+    "show lldp neighbors detail",
+    "show ip interface brief",
+    "show version",
+    "show inventory",
+    "show route ipv4",
+    "show route ipv6",
+    "show mpls forwarding",
+    "show bgp neighbors",
+{% if igp == 'isis' %}
+    "show isis neighbors",
+    "show isis database detail"
+{% else %}
+    "show ospf neighbor",
+    "show ospf database"
+{% endif %}
+]
+
+core_commands = [
+    "show lldp neighbors detail",
+    "show ip interface brief",
+    "show version",
+    "show inventory",
+    "show route ipv4",
+    "show route ipv6",
+    "show mpls forwarding",
+{% if igp == 'isis' %}
+    "show isis neighbors",
+    "show isis database detail"
+{% else %}
+    "show ospf neighbor",
+    "show ospf database"
+{% endif %}
+]
+
+{# Step 2: Create a dictionary with the devices as a key and the commands as the value #}
+device_commands = {}
+
+{% for dev in groups.all %}
+{% if dev in groups.Core %}
+device_commands['{{ dev }}'] = core_commands
+{% else %}
+device_commands['{{ dev }}'] = commands
+{% endif %}
+{% endfor %}
+
+{# Step 3: Specify all the devices that you would like to test in your topology #}
+
+{% set devices = [] %}
+{% for dev in groups.all %}
+{% set devices = devices.append(dev) %}
+{% endfor %}
+
+devices = {{ devices }}
+
+{# Step 4: Specify the destinations that you would like to test for reachability #}
+destinations = [
+{% for dev in groups.all %}
+    {{ test_ping }},
+{% endfor %}
+]
+{# Step 5: Specify the testbed filename #}
+testbed_filename = 'testbed.yaml'

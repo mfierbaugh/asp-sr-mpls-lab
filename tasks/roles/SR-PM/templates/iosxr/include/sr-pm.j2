@@ -1,0 +1,31 @@
+performance-measurement
+{% for interface in network_interfaces %}
+ interface {{ interface.name }}
+  delay-measurement
+  !
+ !
+{% endfor %}
+ delay-profile interfaces default
+  advertisement
+   accelerated
+    threshold 25
+   !
+   periodic
+    interval 120
+    threshold 10
+   !
+  !
+  probe
+   measurement-mode two-way
+   protocol twamp-light
+   computation-interval 60
+  !
+ !
+ protocol twamp-light
+  measurement delay
+   unauthenticated
+    querier-dst-port 12345
+   !
+  !
+ !
+!

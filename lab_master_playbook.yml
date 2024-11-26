@@ -1,0 +1,90 @@
+---
+- name: Message to room
+  hosts: localhost
+  gather_facts: no
+
+  pre_tasks:
+    - name: Message to room
+      when: commit_changes == '1' and webex_quiet == '0'
+      community.general.cisco_webex:
+        recipient_type: '{{wx_recipient_type}}'
+        recipient_id: '{{wx_recipient_id}}'
+        msg_type: '{{wx_msg_type}}'
+        personal_token: '{{wx_personal_token}}'
+        msg: Lab Provisioning Started via converged_sdn_transport playbook.
+
+      tags:
+        - base
+
+- name: Build site configuration
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  pre_tasks:
+
+    - name: Remove old config
+      file: path={{ playbook_dir }}/compiled/{{ inventory_hostname }}/ state=absent
+      register: baseconfdir
+      changed_when: False
+      #when: commit_changes | match('0')
+      #when: commit_changes == '0'
+
+      tags:
+        - base
+
+    - name: Create empty
+      file: path={{ baseconfdir.path }} state=directory
+      changed_when: False
+      #when: commit_changes | match('0')
+      #when: commit_changes == '0'
+
+      tags:
+        - base
+
+    - name: Add end
+      template: src=library/end.j2 dest={{ baseconfdir.path }}/99_end.out
+      changed_when: False
+      #when: commit_changes | match('0')
+      #when: commit_changes == '0'
+
+      tags:
+        - base
+
+# - import_playbook : include/get_facts.yml
+# - import_playbook : tasks/build_testbed.yml
+- import_playbook : tasks/build_secure_crt.yml
+# - import_playbook : tasks/build_cnc_files.yml
+- import_playbook : tasks/def_roles.yml
+- import_playbook : tasks/assemble_push_conf.yml
+
+- name: Final Output
+  hosts: localhost
+  gather_facts: no
+
+  post_tasks:
+    - name: Build End Message
+      template:
+        src: library/EndMessage.j2
+        dest: "{{ playbook_dir }}/compiled/EndMessage.txt"
+
+    # - name: Crosswork NSO sync-from devices
+    #   when: commit_changes == '1' and sync_from == true
+    #   nso_action:
+    #     url: "https://198.18.201.24:8888/jsonrpc"
+    #     username: "admin"
+    #     password: "cisco123"
+    #     path: "/ncs:devices/sync-from"
+    #     input: {}
+
+    - name: Message to room
+      when: commit_changes == '1' and webex_quiet == '0'
+      community.general.cisco_webex:
+        recipient_type: '{{wx_recipient_type}}'
+        recipient_id: '{{wx_recipient_id}}'
+        msg_type: '{{wx_msg_type}}'
+        personal_token: '{{wx_personal_token}}'
+        msg: "{{lookup('ansible.builtin.file' , '{{ playbook_dir }}/compiled/EndMessage.txt') }}"
+
+      tags:
+        - base

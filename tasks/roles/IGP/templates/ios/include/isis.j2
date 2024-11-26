@@ -1,0 +1,29 @@
+router isis ACCESS
+ net 49.0010.0000.0000.{{ '%04d' % (id) }}.00
+ is-type level-2-only
+{% if Auth %}
+ authentication mode md5
+ authentication key-chain ISIS-KEY
+{% endif %}
+ metric-style wide
+ fast-flood 10
+ set-overload-bit on-startup 120
+ max-lsp-lifetime 65535
+ lsp-refresh-interval 65000
+ spf-interval 5 50 200
+ prc-interval 5 50 200
+ lsp-gen-interval 5 5 200
+ log-adjacency-changes
+
+interface Loopback0
+ isis circuit-type level-2-only
+
+{% for interface in interfaces %}
+{% if not ( interface.startswith(('Mgmt', 'Loopback', 'Null')) ) and interface_details[interface]['is_up'] %}
+interface {{ interface }}
+ ip router isis ACCESS
+ isis circuit-type level-2-only
+ isis network point-to-point
+ isis metric 100
+{% endif %}
+{% endfor %}

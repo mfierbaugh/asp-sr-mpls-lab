@@ -1,0 +1,49 @@
+!
+management api http-commands
+   no shutdown
+   !
+   vrf Mgmt-intf
+      no shutdown
+!
+no service interface inactive port-id allocation disabled
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model multi-agent
+!
+hostname {{ inventory_hostname }}
+!
+spanning-tree mode mstp
+!
+system l1
+   unsupported speed action error
+   unsupported error-correction action error
+!
+vrf instance Mgmt-intf
+!
+management api gnmi
+   transport grpc default
+      vrf Mgmt-intf
+!
+management api netconf
+   transport ssh default
+      vrf Mgmt-intf
+!
+clock timezone EST 
+logging trap informational
+logging facility local7
+logging vrf Mgmt-intf host {{ cwdg }} {{ cwdg_syslog_port }}
+logging vrf Mgmt-intf host {{ telemetry_server }} 6514
+logging vrf Mgmt-intf source-interface {{ management_int }}
+{% if splunk_enable %}
+logging vrf Mgmt-intf host {{ splunk_server }} {{ splunk_syslog_port }}
+{% endif %}
+logging format rfc5424
+!
+dns domain dlcoud.cisco.com
+!
+ntp server vrf Mgmt-intf {{ primary_ntp_server }}
+ntp local-interface vrf Mgmt-intf {{ management_int }}
+!
+lldp run
+!

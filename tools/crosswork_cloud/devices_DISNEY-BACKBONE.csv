@@ -1,0 +1,13 @@
+# Device Name (Required),Description,Tags,Location,Timezone,City,Country, Gateway for Trust (Required for Trust Device),SSH Credential (Required for Trust Device),Hostname or IP Address (Required),SSH Port,Gateway for Traffic Analysis (Required for Traffic Analysis device),Netflow Source Address (Required for Traffic Analysis device),SNMP Credential (Required for Traffic Analysis device),SNMP Address,BGP Credential,BGP Address,ASN (Required for Traffic Analysis device),Device Group
+WE1.DC1.61,,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,198.18.144.15,22,cwdg-cloud1,198.18.144.15,RBB_LAB_SNMP,198.18.144.15,,1.1.1.61,400805,DISNEY
+WE2.DC1.62,,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,198.18.144.16,22,cwdg-cloud1,198.18.144.16,RBB_LAB_SNMP,198.18.144.16,,1.1.1.62,400805,DISNEY
+WE1.DC2.63,,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,198.18.145.32,22,cwdg-cloud1,198.18.145.32,RBB_LAB_SNMP,198.18.145.32,,1.1.1.63,400805,DISNEY
+WE2.DC2.64,,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,198.18.145.33,22,cwdg-cloud1,198.18.145.33,RBB_LAB_SNMP,198.18.145.33,,1.1.1.64,400805,DISNEY
+WC1.101,,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,198.18.144.24,22,cwdg-cloud1,198.18.144.24,RBB_LAB_SNMP,198.18.144.24,,1.1.1.101,400805,DISNEY
+WC2.201,,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,198.18.144.22,22,cwdg-cloud1,198.18.144.22,RBB_LAB_SNMP,198.18.144.22,,1.1.1.201,400805,DISNEY
+WC1.102,,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,198.18.144.13,22,cwdg-cloud1,198.18.144.13,RBB_LAB_SNMP,198.18.144.13,,1.1.1.102,400805,DISNEY
+WC2.202,,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,198.18.144.17,22,cwdg-cloud1,198.18.144.17,RBB_LAB_SNMP,198.18.144.17,,1.1.1.202,400805,DISNEY
+WC1.103,,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,198.18.145.31,22,cwdg-cloud1,198.18.145.31,RBB_LAB_SNMP,198.18.145.31,,1.1.1.103,400805,DISNEY
+WC2.203,,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,198.18.144.21,22,cwdg-cloud1,198.18.144.21,RBB_LAB_SNMP,198.18.144.21,,1.1.1.203,400805,DISNEY
+WC1.104,,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,198.18.144.18,22,cwdg-cloud1,198.18.144.18,RBB_LAB_SNMP,198.18.144.18,,1.1.1.104,400805,DISNEY
+WC2.204,,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,198.18.144.19,22,cwdg-cloud1,198.18.144.19,RBB_LAB_SNMP,198.18.144.19,,1.1.1.204,400805,DISNEY

@@ -1,0 +1,83 @@
+{% for ospf in igp_instances %}
+{% if ipv4 %}
+router ospf {{ ospf.name }}
+ nsr
+ log adjacency changes detail 
+ router-id {{ loopbackPrefix }}1.{{ id }}
+ nsf ietf
+{% if Auth %}
+ authentication message-digest key IGP-KEY
+{% endif %}
+ timers throttle lsa all 0 20 5000 
+ timers throttle spf 30 30 5000 
+ auto-cost reference-bandwidth 4000000
+ address-family ipv4 unicast
+!
+ area 0
+  interface Loopback0
+   passive enable
+  !
+{% for interface in network_interfaces if interface.igp_inst == ospf.name %}
+  interface {{ interface.name }}
+{% if interface.vlan == 0 %}
+   bfd minimum-interval 20
+{% else %}
+   bfd minimum-interval 50
+{% endif %}
+   bfd fast-detect
+   bfd multiplier 3
+   network point-to-point
+{% if Auth %}
+   authentication message-digest key IGP-KEY
+{% endif %}
+   cost {{ interface.igp_metric }}
+{%if lfa and mpls_ldp and not sr%}
+   fast-reroute per-prefix
+   fast-reroute per-prefix remote-lfa tunnel mpls-ldp
+   fast-reroute per-prefix tiebreaker node-protecting index 100
+{%elif lfa and sr%}
+   fast-reroute per-prefix
+   fast-reroute per-prefix ti-lfa
+   fast-reroute per-prefix tiebreaker node-protecting index 100
+{%endif%}
+   !
+{% endfor %}
+{% endif %}
+{% if ipv6 and ospfv3 %}
+router ospfv3 {{ ospf.name }}
+ nsr
+ log adjacency changes detail 
+ router-id {{ loopbackPrefix }}1.{{ id }}
+ timers throttle lsa all 0 20 5000 
+ timers throttle spf 30 30 5000 
+ auto-cost reference-bandwidth 4000000
+ address-family ipv6 unicast
+!
+ area 0
+  interface Loopback0
+   passive
+  !
+{% for interface in network_interfaces %}
+  interface {{ interface.name }}
+{% if interface.vlan == 0 %}
+   bfd minimum-interval 20
+{% else %}
+   bfd minimum-interval 50
+{% endif %}
+   bfd fast-detect
+   bfd multiplier 3
+   network point-to-point
+   cost {{ interface.igp_metric }}
+{%if lfa and mpls_ldp and not sr%}
+   fast-reroute per-prefix
+   fast-reroute per-prefix remote-lfa tunnel mpls-ldp
+   fast-reroute per-prefix tiebreaker node-protecting index 100
+{%elif lfa and sr%}
+   fast-reroute per-prefix
+   fast-reroute per-prefix ti-lfa
+   fast-reroute per-prefix tiebreaker node-protecting index 100
+{%endif%}
+   !
+{% endfor %}
+{% endif %}
+{% endfor %}

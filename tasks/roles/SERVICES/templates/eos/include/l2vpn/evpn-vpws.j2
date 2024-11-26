@@ -1,0 +1,9 @@
+{% for service in services.evpn_vpws %}
+l2vpn
+ xconnect group {{service.name}}
+  p2p {{service.name}}
+   interface {{service.interface}}
+   neighbor evpn evi {{service.evi}} service 1
+   !
+ !
+{% endfor %}

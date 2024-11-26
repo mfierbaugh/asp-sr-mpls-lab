@@ -1,0 +1,36 @@
+{% if services.l3vpn is defined and services.l3vpn %}
+!
+{% include "include/l3vpn/vrf.j2" %}
+!
+{% include "include/l3vpn/bgp.j2" %}
+!
+{% include "include/l3vpn/mvpn.j2" %}
+!
+{% endif %}
+{% if services.l2transport_interfaces is defined and services.l2transport_interfaces %}
+{% include "include/interfaces/l2transport_interfaces.j2" %}
+{% endif %}
+{% if services.bvi is defined and services.bvi %}
+{% include "include/interfaces/bvi.j2" %}
+{% endif %}
+{% if services.l3_interfaces is defined and services.l3_interfaces %}
+{% include "include/interfaces/l3_interfaces.j2" %}
+{% endif %}
+{% if services.bundle_members is defined and services.bundle_members %}
+{% include "include/interfaces/bundle-ether-mh.j2" %}
+{% endif %}
+{% if services.evpn_vpws is defined and services.evpn_vpws %}
+{% include "include/l2vpn/evpn-vpws.j2" %}
+{% endif %}
+{% if services.evpn_sh is defined and services.evpn_sh %}
+{% include "include/l2vpn/evpn-sh.j2" %}
+{% endif %}
+{% if services.vpls is defined and services.vpls %}
+{% include "include/l2vpn/vpls.j2" %}
+{% endif %}
+{% if services.evpn_vpws_fxc is defined and services.evpn_vpws_fxc %}
+{% include "include/l2vpn/evpn-vpws-fxc.j2" %}
+{% endif %}
+{% if services.evpn_mh is defined and services.evpn_mh %}
+{% include "include/l2vpn/evpn-mh.j2" %}
+{% endif %}

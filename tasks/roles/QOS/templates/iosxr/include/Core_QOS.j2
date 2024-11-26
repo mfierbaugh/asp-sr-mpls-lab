@@ -1,0 +1,371 @@
+{% macro configure_qos(function) %}
+{% if function == 'Core' %}
+class-map match-any CMAP-CRITICAL
+ description CMAP-CRITICAL CS7
+ match dscp 56
+ match mpls experimental topmost 7
+ end-class-map
+!
+class-map match-any CMAP-ROUTING-CONTROL
+ description CMAP-ROUTING-CONTROL CS6
+ match dscp 48
+ match mpls experimental topmost 6
+ end-class-map
+!
+class-map match-any CMAP-PLATINUM
+ description CMAP-PLATINUM EF
+ match dscp 46
+ match mpls experimental topmost 5
+ end-class-map
+!
+class-map match-any CMAP-GOLD
+ description CMAP-GOLD
+ match dscp 32
+ match mpls experimental topmost 4
+ end-class-map
+!
+class-map match-any CMAP-SILVER
+ description CMAP-SILVER
+ match dscp 24
+ match mpls experimental topmost 3
+ end-class-map
+!
+class-map match-any CMAP-BRONZE
+ description CMAP-BRONZE
+ match dscp 16
+ match mpls experimental topmost 2
+ end-class-map
+!
+class-map match-any CMAP-SCAVENGER
+ description Highest priority control-plane traffic
+ match dscp cs6
+ match mpls experimental topmost 1
+ end-class-map
+!
+class-map match-any match-traffic-class-7
+ description "Match highest priority traffic-class 7"
+ match traffic-class 7
+ end-class-map
+!
+class-map match-any match-traffic-class-6
+ description "Match high priority traffic-class 6"
+ match traffic-class 6
+ end-class-map
+!
+class-map match-any match-traffic-class-5
+ description "Match high priority traffic-class 5"
+ match traffic-class 5
+ end-class-map
+!
+class-map match-any match-traffic-class-4
+ description "Match medium traffic-class 4"
+ match traffic-class 4
+ end-class-map
+!
+class-map match-any match-traffic-class-3
+ description "Match medium traffic-class 3"
+ match traffic-class 3
+ end-class-map
+!
+class-map match-any match-traffic-class-2
+ description "Match medium traffic-class 2"
+ match traffic-class 2
+ end-class-map
+!
+class-map match-any match-traffic-class-1
+ description "Match medium traffic-class 1"
+ match traffic-class 1
+ end-class-map
+!
+policy-map core-ingress-classifier
+ class CMAP-ROUTING-CONTROL
+  set traffic-class 7
+  set qos-group 7
+ !
+  class CMAP-ROUTING-CONTROL
+  set traffic-class 6
+  set qos-group 6
+ !
+ class CMAP-PLATINUM
+  set traffic-class 5
+  set qos-group 5
+ !
+ class CMAP-GOLD
+  set traffic-class 4
+  set qos-group 4
+ !
+ class CMAP-SILVER
+  set traffic-class 3
+  set qos-group 3
+ !
+  class CMAP-BRONZE
+  set traffic-class 2
+  set qos-group 2
+ !
+  class CMAP-SCAVENGER
+  set traffic-class 1
+  set qos-group 1
+ !
+ class class-default
+  set traffic-class 0
+  set qos-group 0
+ !
+ end-policy-map
+!
+policy-map core-egress-queuing
+  class match-traffic-class-1
+    bandwidth remaining ratio 8
+  !
+  class match-traffic-class-2
+    bandwidth remaining ratio 10
+  !
+  class match-traffic-class-3
+    bandwidth remaining ratio 15
+  !
+  class match-traffic-class-4
+    bandwidth remaining ratio 20
+  !
+  class match-traffic-class-5
+    priority level 3
+  !
+  class match-traffic-class-6
+    priority level 2
+  !
+  class match-traffic-class-7
+    priority level 1
+  !
+  class class-default
+    bandwidth remaining ratio 2
+  !
+ end-policy-map
+!
+{% for interface in network_interfaces if not '.' in interface.name %}
+interface {{ interface.name }}
+service-policy input core-ingress-classifier
+service-policy output core-egress-queuing
+{% endfor %}
+{% elif function == 'ProviderEdge' or 'Access' or 'Routed_Optical' %}
+class-map match-any CMAP-CRITICAL
+ description CMAP-CRITICAL CS7
+ match dscp 56
+ match mpls experimental topmost 7
+ end-class-map
+!
+class-map match-any CMAP-ROUTING-CONTROL
+ description CMAP-ROUTING-CONTROL CS6
+ match dscp 48
+ match mpls experimental topmost 6
+ end-class-map
+!
+class-map match-any CMAP-PLATINUM
+ description CMAP-PLATINUM EF
+ match dscp 46
+ match mpls experimental topmost 5
+ end-class-map
+!
+class-map match-any CMAP-GOLD
+ description CMAP-GOLD
+ match dscp 32
+ match mpls experimental topmost 4
+ end-class-map
+!
+class-map match-any CMAP-SILVER
+ description CMAP-SILVER
+ match dscp 24
+ match mpls experimental topmost 3
+ end-class-map
+!
+class-map match-any CMAP-BRONZE
+ description CMAP-BRONZE
+ match dscp 16
+ match mpls experimental topmost 2
+ end-class-map
+!
+class-map match-any CMAP-SCAVENGER
+ description Highest priority control-plane traffic
+ match dscp cs6
+ match mpls experimental topmost 1
+ end-class-map
+!
+class-map match-any match-traffic-class-7
+ description "Match highest priority traffic-class 7"
+ match traffic-class 7
+ end-class-map
+!
+class-map match-any match-traffic-class-6
+ description "Match high priority traffic-class 6"
+ match traffic-class 6
+ end-class-map
+!
+class-map match-any match-traffic-class-5
+ description "Match high priority traffic-class 5"
+ match traffic-class 5
+ end-class-map
+!
+class-map match-any match-traffic-class-4
+ description "Match medium traffic-class 4"
+ match traffic-class 4
+ end-class-map
+!
+class-map match-any match-traffic-class-3
+ description "Match medium traffic-class 3"
+ match traffic-class 3
+ end-class-map
+!
+class-map match-any match-traffic-class-2
+ description "Match medium traffic-class 2"
+ match traffic-class 2
+ end-class-map
+!
+class-map match-any match-traffic-class-1
+ description "Match medium traffic-class 1"
+ match traffic-class 1
+ end-class-map
+!
+!
+class-map match-any match-qos-group-1
+ match qos-group 1
+ end-class-map
+!
+class-map match-any match-qos-group-2
+ match qos-group 2
+ end-class-map
+!
+class-map match-any match-qos-group-3
+ match qos-group 3
+ end-class-map
+!
+class-map match-any match-qos-group-4
+ match qos-group 4
+ end-class-map
+!
+class-map match-any match-qos-group-5
+ match qos-group 5
+ end-class-map
+!
+class-map match-any match-qos-group-6
+ match qos-group 6
+ end-class-map
+!
+class-map match-any match-qos-group-7
+ match qos-group 7
+ end-class-map
+!
+policy-map core-ingress-classifier
+ class CMAP-ROUTING-CONTROL
+  set traffic-class 7
+  set qos-group 7
+ !
+  class CMAP-ROUTING-CONTROL
+  set traffic-class 6
+  set qos-group 6
+ !
+ class CMAP-PLATINUM
+  set traffic-class 5
+  set qos-group 5
+ !
+ class CMAP-GOLD
+  set traffic-class 4
+  set qos-group 4
+ !
+ class CMAP-SILVER
+  set traffic-class 3
+  set qos-group 3
+ !
+  class CMAP-BRONZE
+  set traffic-class 2
+  set qos-group 2
+ !
+  class CMAP-SCAVENGER
+  set traffic-class 1
+  set qos-group 1
+ !
+ class class-default
+  set traffic-class 0
+  set qos-group 0
+ !
+ end-policy-map
+!
+policy-map core-egress-queuing
+  class match-traffic-class-1
+    bandwidth remaining ratio 8
+  !
+  class match-traffic-class-2
+    bandwidth remaining ratio 10
+  !
+  class match-traffic-class-3
+    bandwidth remaining ratio 15
+  !
+  class match-traffic-class-4
+    bandwidth remaining ratio 20
+  !
+  class match-traffic-class-5
+    priority level 3
+  !
+  class match-traffic-class-6
+    priority level 2
+  !
+  class match-traffic-class-7
+    priority level 1
+  !
+  class class-default
+    bandwidth remaining ratio 2
+  !
+ end-policy-map
+!
+policy-map core-egress-exp-marking
+ class match-qos-group-1
+  set mpls experimental imposition 1
+ !
+ class match-qos-group-2
+  set mpls experimental imposition 2
+ !
+ class match-qos-group-3
+  set mpls experimental imposition 3
+ !
+ class match-qos-group-4
+  set mpls experimental imposition 4
+ !
+  class match-qos-group-5
+  set mpls experimental imposition 5
+ !
+ class match-qos-group-6
+  set mpls experimental imposition 6
+ !
+ class match-qos-group-7
+  set mpls experimental imposition 7
+ !
+ class class-default
+  set mpls experimental imposition 0
+ !
+ end-policy-map
+!
+{% for interface in network_interfaces if not '.' in interface.name %}
+interface {{ interface.name }}
+service-policy input core-ingress-classifier
+service-policy output core-egress-queuing
+service-policy output core-egress-exp-marking
+{% endfor %}
+{% for interface in services.l3_interfaces if not 'Loopback' in interface.name %}
+interface {{ interface.name }}
+service-policy input core-ingress-classifier
+service-policy output core-egress-queuing
+service-policy output core-egress-exp-marking
+{% endfor %}
+
+{% endif %}
+{% endmacro %}
+
+{% if inventory_hostname in groups['Core'] %}
+{{ configure_qos('Core') }}
+{% elif inventory_hostname in groups['ProviderEdge'] %}
+{% if (inventory_hostname | regex_search(".*9903.*")) %}
+{{ configure_qos('9kPE') }}
+{% else %}
+{{ configure_qos('ProviderEdge') }}
+{% endif %}
+{% elif inventory_hostname in groups['Access'] %}
+{{ configure_qos('Access') }}
+{% elif inventory_hostname in groups['Routed_Optical'] %}
+{{ configure_qos('Routed_Optical') }}
+{% endif %}

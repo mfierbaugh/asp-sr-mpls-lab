@@ -1,0 +1,140 @@
+route-policy pass-all
+  pass
+end-policy
+!
+route-policy CNC-rr-parent-policy
+  pass
+end-policy
+!
+route-policy BGP-PIC-EDGE-MULTIPATH
+  set path-selection backup 1 install multipath-protect 
+end-policy
+!
+router bgp {{asn}}
+ nsr
+ bgp router-id {{loopbackPrefix}}1.{{id}}
+ bgp graceful-restart restart-time 120
+ bgp graceful-restart stalepath-time 360
+ bgp graceful-restart
+{% if bfd %}
+ bfd minimum-interval 6500
+ bfd multiplier 7
+{% endif %}
+ !
+ address-family ipv4 unicast
+ !
+ address-family ipv6 unicast
+ !
+ address-family ipv4 mvpn
+  additional-paths receive
+  additional-paths send
+ !
+ address-family vpnv4 unicast
+  additional-paths receive
+  additional-paths send
+  additional-paths selection route-policy BGP-PIC-EDGE-MULTIPATH
+  !
+ !
+ address-family vpnv6 unicast
+  additional-paths receive
+  additional-paths send
+  additional-paths selection route-policy BGP-PIC-EDGE-MULTIPATH
+ !
+ address-family ipv4 rt-filter
+ !
+ address-family l2vpn evpn
+  additional-paths receive
+  additional-paths send
+ !
+ neighbor-group IBGP_PEERS
+  remote-as {{asn}}
+{% if bfd %}
+  bfd fast-detect
+{% endif %}
+  update-source Loopback0
+  !
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+ !
+ neighbor-group EBGP_PEERS
+{% if bfd %}
+  bfd fast-detect
+{% endif %}
+  !
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+ !
+ neighbor-group ROUTE_REFLECTORS
+  remote-as {{asn}}
+{% if bfd %}
+  bfd fast-detect
+{% endif %}
+  update-source Loopback0
+  !
+  address-family ipv4 unicast
+  !
+  address-family ipv4 mvpn
+  !
+  address-family vpnv4 unicast
+   soft-reconfiguration inbound
+  !
+  address-family vpnv6 unicast
+   soft-reconfiguration inbound
+  !
+  address-family l2vpn evpn
+   route-policy CNC-rr-parent-policy in
+  !
+ !
+!
+{% for host in route_reflectors %}
+{% if ipv4 %}
+  neighbor {{ host.ip }}
+    use neighbor-group ROUTE_REFLECTORS
+  !
+{% endif %}
+{% if ipv6 and not ipv4 %}
+  neighbor {{ host.v6 }}
+    use neighbor-group ROUTE_REFLECTORS
+  !
+{% endif %}
+{% endfor %}
+  !
+!
+{% if vrf_lite %}
+{% for host in ibgp_peers if host.enable %}
+{% if ipv4 %}
+  neighbor {{ host.ipv4 }}
+    use neighbor-group IBGP_PEERS
+  !
+{% endif %}
+{% if ipv6 and not ipv4 %}
+  neighbor {{ host.v6 }}
+    use neighbor-group IBGP_PEERS
+  !
+{% endif %}
+{% endfor %}
+!
+{% for host in ebgp_peers if host.enable  %}
+{% if ipv4 %}
+  neighbor {{ host.ipv4 }}
+   remote-as {{ host.remote_asn }}
+   use neighbor-group EBGP_PEERS
+   address-family ipv4 unicast
+     route-policy {{ host.rp4_in }} in   
+     route-policy {{ host.rp4_out }} out
+ !
+    address-family ipv6 unicast
+     route-policy {{ host.rp4_in }} in   
+     route-policy {{ host.rp4_out }} out
+ !
+  !
+{% endif %}
+{% if ipv6 and not ipv4 %}
+  neighbor {{ host.v6 }}
+    use neighbor-group EBGP_PEERS
+  !
+{% endif %}
+{% endfor %}
+{% endif %}

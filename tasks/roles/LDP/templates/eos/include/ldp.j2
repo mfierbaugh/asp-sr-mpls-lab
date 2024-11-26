@@ -1,0 +1,11 @@
+!
+mpls ip
+!
+mpls ldp
+   router-id {{loopbackPrefix}}1.{{id}}
+   no shutdown
+   !
+   mldp
+      no shutdown
+  !
+  igp sync delay 5

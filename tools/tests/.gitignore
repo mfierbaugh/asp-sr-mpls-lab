@@ -1,0 +1,11 @@
+venv/
+.DS_Store
+baseline/
+diff/
+after/
+compiled_tests/
+tests/testbed.yaml
+tests/env_var.py
+*.ipynb
+.ipynb_checkpoints
+_pycache_

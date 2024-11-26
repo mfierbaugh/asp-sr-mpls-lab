@@ -1,0 +1,14 @@
+mpls traffic-eng tunnels
+
+{% if igp == 'isis' %}
+router isis ACCESS
+ mpls traffic-eng router-id Loopback0
+ mpls traffic-eng level-2
+{% endif %}
+
+{% for interface in interfaces %}
+{% if not ( interface.startswith(('Mgmt', 'Loopback', 'Null')) ) and interface_details[interface]['is_up'] %}
+interface {{ interface }}
+ mpls traffic-eng tunnels
+{% endif %}
+{% endfor %}

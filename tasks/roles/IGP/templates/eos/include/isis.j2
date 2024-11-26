@@ -1,0 +1,39 @@
+{% for isis in igp_instances %}
+router isis {{ isis.name }}
+   no hello padding
+   net 49.0011.0001.0000.{{ '%04d' % (id) }}.00
+   router-id ipv4 {{ loopbackPrefix }}1.{{ id }}
+   is-type level-2
+   log-adjacency-changes
+   set-overload-bit on-startup 300
+{% if Auth %}
+   authentication mode md5
+   authentication key 7 IhE0wrx3AJo=
+{% endif %}
+   graceful-restart
+   !
+   address-family ipv4 unicast
+      fast-reroute ti-lfa mode link-protection
+   !
+   segment-routing mpls
+      no shutdown
+   !
+   traffic-engineering
+      no shutdown
+      is-type level-2
+!
+interface Loopback0
+   isis enable {{ isis.name }}
+   isis circuit-type level-2
+   isis passive
+ !
+{% for interface in network_interfaces if interface.igp_inst == isis.name %}
+interface {{ interface.name }}
+   isis enable {{ isis.name }}
+   isis circuit-type level-2
+   isis metric {{ interface.igp_metric }}
+   isis network point-to-point 
+!
+{% endfor %}
+!
+{% endfor %}

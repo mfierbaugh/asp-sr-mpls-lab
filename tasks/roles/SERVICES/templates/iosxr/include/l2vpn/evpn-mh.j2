@@ -1,0 +1,25 @@
+{% for service in services.evpn_mh %}
+evpn
+ evi {{service.evi}}
+  advertise-mac
+  !
+  interface {{service.interface}}
+   ethernet-segment
+    identifier type 0 {{ service.esi }}
+{% if service.load_balancing_mode == 'port-active' %}
+    load-balancing-mode {{ service.load_balancing_mode }}
+{% endif %}
+    !
+   !
+  !
+ !
+!
+l2vpn
+ bridge group {{service.name}}
+  bridge-domain {{service.name}}
+   description {{service.name}}
+   interface {{service.interface}}
+   evi {{service.evi}}
+   !
+!
+{% endfor %}

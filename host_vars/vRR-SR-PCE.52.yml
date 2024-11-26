@@ -1,0 +1,74 @@
+id: 52
+os: iosxr
+ansible_password: cisco123
+napalm_driver: iosxr_netconf
+xr_7: true
+dnx: false
+management_int: 0/RP0/CPU0/0
+max_sid_depth: 6
+asn: 65000
+bgp_rrc: false
+bgp_rr: true
+netflow: false
+xrd: true
+
+optics:
+  - {enable: false}
+
+network_interfaces:
+  - {name: GigabitEthernet0/0/0/0, descr: "CORE.102", remote_id: 102, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 2000, te_metric: 120, mtu: 9000}
+  - {name: GigabitEthernet0/0/0/1, descr: "CORE.104", remote_id: 104, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 2000, te_metric: 120, mtu: 9000}
+
+
+Flex_Algo_Membership: {128, 129, 130}
+
+bfd_multipath:
+  - {enable: true, location: 0/0/CPU0 }
+
+bundle_members:
+  - {enable: False}
+
+breakout:
+  - {enable: False}
+
+static_routes:
+  - {enable: False}
+
+route_reflector_clients:
+  - ip: 1.1.1.21
+    v6: 21:21:21::21
+  - ip: 1.1.1.22
+    v6: 22:22:22::22
+  - ip: 1.1.1.23
+    v6: 23:23:23::23
+  - ip: 1.1.1.24
+    v6: 24:24:24::24
+
+route_reflector_peers:
+  - ip: 1.1.1.51
+    v6: 51:51:51::51
+
+ebgp_peers:
+  - { enable: false }
+
+pce_peers:
+  - ip: 1.1.1.51
+    v6: 51:51:51::51
+
+
+pce_sibling: 198.18.130.51
+
+#tree_sid:
+#  endpoint_sets:
+#    - name: OLT-MCAST-ENDPOINTS
+#      endpoints:
+#        - ipv4: 10.1.1.10
+#        - ipv4: 10.1.1.11
+#        - ipv4: 10.1.1.12
+#        - ipv4: 10.1.1.13
+#  policies:
+#    - name: OLT-MCAST-VIDEO
+#      source: 10.1.1.26
+#      color: 100
+#      endpoint_set: OLT-MCAST-ENDPOINTS
+#      label: 18000

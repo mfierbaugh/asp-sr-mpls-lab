@@ -1,0 +1,51 @@
+{% if Flex %}
+{% for algo in Flex_Algos %}
+!
+route-map ALGO-{{ algo.descr }} permit 10
+   set extcommunity color {{ algo.name }}
+!
+{% endfor %}
+{% endif %}
+!
+router bgp {{ asn }}
+{% for vrf in services.l3vpn  %}
+   vrf {{ vrf.name }}
+      rd {{ vrf.rd }}
+      route-target import {{ asn }}:{{ vrf.vpn_id }}
+      route-target import vpn-ipv4 {{ asn }}:{{ vrf.vpn_id }}
+      route-target import vpn-ipv6 {{ asn }}:{{ vrf.vpn_id }}
+      route-target export vpn-ipv4 {{ asn }}:{{ vrf.vpn_id }}
+      route-target export vpn-ipv6 {{ asn }}:{{ vrf.vpn_id }}
+{% if vrf.algo_map is defined %}
+      redistribute connected route-map {{ vrf.algo_map }}
+{% else %}
+      redistribute connected
+{% endif %}
+{% for neighbor in vrf.bgp_neighbors if neighbor.enable %}
+      neighbor {{ neighbor.ipv4 }} remote-as {{ neighbor.remote_asn }}
+      neighbor {{ neighbor.ipv4 }} route-map {{ neighbor.rp4_in }} in
+      neighbor {{ neighbor.ipv4 }} route-map {{ neighbor.rp4_out }} out
+      neighbor {{ neighbor.ipv4 }} send-community
+      neighbor {{ neighbor.ipv4 }} link-bandwidth auto
+      neighbor {{ neighbor.ipv6 }} remote-as {{ neighbor.remote_asn }}
+      neighbor {{ neighbor.ipv6 }} description CE1
+      neighbor {{ neighbor.ipv6 }} route-map {{ neighbor.rp6_in }} in
+      neighbor {{ neighbor.ipv6 }} route-map {{ neighbor.rp6_out }} out
+      !
+      address-family ipv4
+         neighbor {{ neighbor.ipv6 }} activate
+      !
+      address-family ipv6
+         neighbor {{ neighbor.ipv6 }} activate
+      !
+{% endfor %}
+      mvpn-ipv4
+         intra-as-ipmsi
+            route attribute pmsi-tunnel no-advertise
+         !
+         selective-pmsi
+            p-tunnel source-group
+            p-tunnel star-star
+ !
+{% endfor %}
+!

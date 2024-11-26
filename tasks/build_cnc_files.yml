@@ -1,0 +1,59 @@
+---
+- name: Building Crosswork Network Controller Inventories and Crosswork Cloud for import
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  pre_tasks:
+
+    - name: Remove old devices file
+      file: path=../tools/crosswork_network_controller/devices_{{ lab_name }}.csv state=absent
+      changed_when: False
+      #when: commit_changes | match('0')
+      #when: commit_changes == '0'
+
+      tags:
+        - base
+
+    - name: Remove old providers file
+      file: path=../tools/crosswork_network_controller/providers_{{ lab_name }}.csv state=absent
+      changed_when: False
+      #when: commit_changes | match('0')
+      #when: commit_changes == '0'
+
+      tags:
+        - base
+
+    - name: Remove old Crosswork Cloud file
+      file: path=../tools/crosswork_cloud/devices_{{ lab_name }}.csv state=absent
+      changed_when: False
+      #when: commit_changes | match('0')
+      #when: commit_changes == '0'
+
+      tags:
+        - base
+
+
+    - name: "Building devices file"
+      template: src=../tools/templates/template_devices.j2 dest=../tools/crosswork_network_controller/devices_{{ lab_name }}.csv
+      changed_when: False
+      #when: commit_changes | match('0')
+      #when: commit_changes == '0'
+      tags:
+        - fabric
+
+    - name: "Building providers file"
+      template: src=../tools/templates/template_providers.j2 dest=../tools/crosswork_network_controller/providers_{{ lab_name }}.csv
+      changed_when: False
+      #when: commit_changes | match('0')
+      #when: commit_changes == '0'
+      tags:
+        - fabric
+
+    - name: "Building Crosswork Cloud file"
+      template: src=../tools/templates/template_crosswork_cloud.j2 dest=../tools/crosswork_cloud/devices_{{ lab_name }}.csv
+      changed_when: False
+      #when: commit_changes | match('0')
+      #when: commit_changes == '0'
+      tags:
+        - fabric

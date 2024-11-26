@@ -1,0 +1,15 @@
+{% for service in services.vpls %}
+l2vpn
+ bridge group {{service.name}}
+  bridge-domain {{service.name}}
+   description {{service.name}}
+{% for interface in service.interfaces %}
+   interface {{interface.name}}
+{% endfor %}
+   vfi {{service.name}}
+{% for neighbor in service.neighbors %}
+      neighbor {{neighbor.ip}} pw-id {{neighbor.pw_id}}
+{% endfor %}
+   !
+!
+{% endfor %}

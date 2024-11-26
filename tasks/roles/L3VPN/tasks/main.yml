@@ -1,0 +1,6 @@
+---
+- name: "Building Layer3 VPN Configuration for Provider Edge Routers"
+  template: src={{ os }}/l3vpn.j2 dest={{ baseconfdir.path }}/09_L3VPN.out
+  changed_when: False
+  #when: commit_changes | match('0')
+  #when: commit_changes == '0'

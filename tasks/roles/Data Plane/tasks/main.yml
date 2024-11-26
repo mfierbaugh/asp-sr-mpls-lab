@@ -1,0 +1,8 @@
+---
+- name: "Building IP Dataplane"
+  template: src={{ os }}/dataplane.j2 dest={{ baseconfdir.path }}/01_dataplane.out
+  changed_when: False
+  #when: commit_changes | match('0')
+  #when: commit_changes == '0'
+  tags:
+    - fabric

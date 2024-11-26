@@ -1,0 +1,4 @@
+---
+- name: "Build testbed.yaml"
+  template: src=testbed.j2 dest={{ playbook_dir }}/compiled_tests/{{ id }}testbed.yaml
+  changed_when: False ansible-playbook -i hosts.yml converged_sdn_transport.yml -e "commit_changes=1"

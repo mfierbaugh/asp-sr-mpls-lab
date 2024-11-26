@@ -1,0 +1,52 @@
+!
+!
+router bgp {{ asn }}
+ neighbor-group L3VPN_PEERS
+  address-family ipv4 unicast
+   route-policy pass-all in
+   route-policy pass-all out
+   soft-reconfiguration inbound always
+  !
+  address-family ipv6 unicast
+   route-policy pass-all in
+   route-policy pass-all out
+   soft-reconfiguration inbound always
+  !
+ !
+{% for vrf in services.l3vpn  %}
+ vrf {{ vrf.name }}
+  rd {{ vrf.rd }}
+   address-family ipv4 unicast
+   maximum-paths ebgp 2
+{% if srv6 %}
+   segment-routing srv6
+    alloc mode per-vrf 
+   !
+{% endif %} 
+   redistribute connected
+  !
+   address-family ipv6 unicast
+   maximum-paths ebgp 2
+{% if srv6 %}
+   segment-routing srv6
+    alloc mode per-vrf 
+   !
+{% endif %} 
+   redistribute connected
+  !
+{% for neighbor in vrf.bgp_neighbors if neighbor.enable %}
+  neighbor {{ neighbor.ipv4 }}
+   remote-as {{ neighbor.remote_asn }}
+   use neighbor-group L3VPN_PEERS
+   address-family ipv4 unicast
+     route-policy {{ neighbor.rp4_in }} in   
+     route-policy {{ neighbor.rp4_out }} out
+ !
+    address-family ipv6 unicast
+     route-policy {{ neighbor.rp4_in }} in   
+     route-policy {{ neighbor.rp4_out }} out
+ !
+ {% endfor %}
+ !
+{% endfor %}
+!

@@ -1,0 +1,9 @@
+router msdp
+ originator-id Loopback0
+{%for host in groups['ProviderEdge']%}
+{%if host != inventory_hostname%}
+  peer 1.1.1.{{ hostvars[host].id }}
+    connect-source Loopback0
+    mesh-group GRT
+{%endif%}
+{%endfor%}

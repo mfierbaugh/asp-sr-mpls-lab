@@ -1,0 +1,9 @@
+{% if l3vpn.enable %}
+!
+{% include "include/vrf.j2" %}
+!
+{% include "include/interfaces.j2" %}
+!
+{% include "include/bgp.j2" %}
+!
+{% endif %}

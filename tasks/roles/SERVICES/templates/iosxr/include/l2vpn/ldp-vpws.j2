@@ -1,0 +1,23 @@
+l2vpn
+{% for policy in sr_policy.manual %}
+ pw-class {{ policy.name }}-TLDP
+  encapsulation mpls
+   preferred-path sr-te policy srte_c_{{ policy.color }}_ep_{{ policy.endpoint }} fallback disable
+   control-word
+   load-balancing
+    flow-label both
+   !
+  !
+{% endfor %}
+ !
+{% for service in services.ldp_vpws %}
+ xconnect group {{service.name}}
+  p2p {{service.name}}
+   interface {{service.interface}}
+   neighbor {{service.peer}} pw-id {{service.pw_id}}
+{% if service.sr_policy is defined %}
+    pw-class {{service.sr_policy}}-TLDP
+{% endif %}
+   !
+ !
+{% endfor %}

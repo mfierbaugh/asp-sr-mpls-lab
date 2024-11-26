@@ -1,0 +1,18 @@
+key chain MACSEC-KEY
+ macsec
+  key ff
+   key-string {{ macsec_key }} cryptographic-algorithm {{ macsec_key_algo }}
+   lifetime 05:00:00 01 January 2015 infinite
+!
+macsec-policy MACSEC-POLICY
+ cipher-suite {{ macsec_cipher_suite }}
+ conf-offset CONF-OFFSET-30
+ key-server-priority {{ id }}
+ impose-overhead-on-bundle
+ security-policy must-secure
+!
+{% for interface in bundle_members if interface.macsec %}
+interface {{ interface.member }}
+ macsec psk-keychain MACSEC-KEY policy MACSEC-POLICY
+  !
+{% endfor %}

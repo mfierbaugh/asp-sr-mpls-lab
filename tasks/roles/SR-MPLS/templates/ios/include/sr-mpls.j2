@@ -1,0 +1,17 @@
+mpls label range 6001 32767 static 16 6000
+
+segment-routing mpls
+ !
+ global-block 16000 24999
+ !
+connected-prefix-sid-map
+  address-family ipv4
+   {{loopbackPrefix}}0.{{id}}{{loopbackCidr}} index {{id}} range 1
+  exit-address-family
+ !
+router isis ACCESS
+ segment-routing mpls
+ segment-routing prefix-sid-map advertise-local
+ fast-reroute per-prefix level-2 all
+ fast-reroute ti-lfa level-2
+ microloop avoidance protected

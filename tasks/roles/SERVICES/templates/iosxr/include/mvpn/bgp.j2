@@ -1,0 +1,16 @@
+router bgp {{ asn }}
+{% for vrf in services.mvpn  %}
+ vrf {{ vrf.name }}
+  rd {{ vrf.rd }}
+   address-family ipv4 unicast
+    maximum-paths ebgp 2
+    redistribute connected
+  !
+   address-family ipv6 unicast
+    maximum-paths ebgp 2
+    redistribute connected
+  !
+    address-family ipv4 mvpn
+  !
+{% endfor %}
+!

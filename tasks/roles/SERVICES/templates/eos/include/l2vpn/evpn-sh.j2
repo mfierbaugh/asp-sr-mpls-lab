@@ -1,0 +1,16 @@
+{% for service in services.evpn_sh %}
+evpn
+ evi {{service.evi}}
+  advertise-mac
+  !
+ !
+!
+l2vpn
+ bridge group {{service.name}}
+  bridge-domain {{service.name}}
+   description {{service.name}}
+   interface {{service.interface}}
+   evi {{service.evi}}
+   !
+!
+{% endfor %}

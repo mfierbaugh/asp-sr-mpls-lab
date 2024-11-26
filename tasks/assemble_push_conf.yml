@@ -1,0 +1,51 @@
+---
+- name: Assemble and Push configuration
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: Assemble configuration
+    assemble: src={{ baseconfdir.path }}/ dest={{ baseconfdir.path }}/running.conf
+    changed_when: False
+    #when: commit_changes | match('0')
+    #when: commit_changes == '0'
+
+    tags:
+      - deploy
+
+  - name: Testing configurations via netconf on devices
+    any_errors_fatal: true
+    when: commit_changes == '0'
+    napalm_install_config:
+        hostname: "{{ ansible_host }}"
+        username: "{{ ansible_user }}"
+        dev_os: "{{ napalm_driver }}"
+        password: "{{ ansible_password }}"
+        optional_args: {'hostkey_verify': False, 'allow_agent': False, 'look_for_keys': False }
+        replace_config: false
+        config_file: "{{ playbook_dir }}/../compiled/{{ inventory_hostname }}/running.conf"
+        commit_changes: "0"
+        diff_file: "{{ playbook_dir }}/../compiled/{{ inventory_hostname }}/diff"
+    no_log: False
+
+    tags:
+      - deploy
+
+  - name: Committing configurations via netconf on devices
+    any_errors_fatal: true
+    when: commit_changes == '1'
+    napalm_install_config:
+        hostname: "{{ ansible_host }}"
+        username: "{{ ansible_user }}"
+        dev_os: "{{ napalm_driver }}"
+        password: "{{ ansible_password }}"
+        optional_args: {'hostkey_verify': False, 'allow_agent': False, 'look_for_keys': False }
+        replace_config: true
+        config_file: "{{ playbook_dir }}/../compiled/{{ inventory_hostname }}/running.conf"
+        commit_changes: "1"
+        diff_file: "{{ playbook_dir }}/../compiled/{{ inventory_hostname }}/diff"
+    no_log: False
+
+    tags:
+      - deploy

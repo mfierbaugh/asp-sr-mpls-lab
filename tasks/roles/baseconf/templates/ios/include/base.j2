@@ -1,0 +1,39 @@
+version 16.11
+
+hostname {{ inventory_hostname }}
+
+service timestamps log datetime msec
+service timestamps debug datetime msec
+ip domain name virl.lab
+no ip domain lookup
+
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+
+aaa new-model
+
+ip name-server vrf Mgmt-intf {{ primary_dns_server }}
+ip domain name cisco.com
+ip domain name vrf Mgmt-intf cisco.com
+
+archive
+ path flash:archive
+ write-memory
+
+ip route 0.0.0.0 128.0.0.0 null0
+
+ntp server vrf Mgmt-intf {{ primary_ntp_server }}
+ntp source GigabitEthernet1
+
+ip scp server enable
+
+ip ssh version 2
+ip ssh source-interface GigabitEthernet1
+
+lldp run

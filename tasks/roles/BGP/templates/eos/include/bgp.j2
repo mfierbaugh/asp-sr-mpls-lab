@@ -1,0 +1,60 @@
+route-map CE1-IN-V4 permit 10
+   set extcommunity extcommunity-list UNIFIED-CLT1 additive
+!
+route-map CE1-IN-V6 permit 10
+   set extcommunity extcommunity-list UNIFIED-CLT1 additive
+!
+route-map CE1-OUT-V4 deny 10
+   match extcommunity UNIFIED-CLT1
+!
+route-map CE1-OUT-V4 permit 20
+!
+route-map CE1-OUT-V6 deny 10
+   match extcommunity UNIFIED-CLT1
+!
+route-map CE1-OUT-V6 permit 20
+!
+route-map RR-IN-V4 permit 10
+!
+route-map RR-IN-V6 permit 10
+!
+route-map RR-OUT-V4 permit 10
+!
+route-map RR-OUT-V6 permit 10
+!
+!
+router bgp {{asn}}
+   router-id {{loopbackPrefix}}1.{{id}}
+   no bgp default ipv4-unicast
+   bgp missing-policy direction in action deny-in-out
+   bgp missing-policy direction out action deny-in-out
+   neighbor ROUTE_REFLECTORS peer group
+   neighbor ROUTE_REFLECTORS remote-as {{asn}}
+   neighbor ROUTE_REFLECTORS update-source Loopback0
+   neighbor ROUTE_REFLECTORS additional-paths receive
+   neighbor ROUTE_REFLECTORS additional-paths send any
+   neighbor ROUTE_REFLECTORS send-community
+   neighbor ROUTE_REFLECTORS maximum-routes 0
+{% for host in route_reflectors %}
+   neighbor {{ host.ip }} peer group ROUTE_REFLECTORS
+{% endfor %}
+   !
+   address-family evpn
+      neighbor default encapsulation mpls next-hop-self source-interface Loopback0
+      neighbor ROUTE_REFLECTORS activate
+   !
+   address-family mvpn-ipv4
+      neighbor ROUTE_REFLECTORS activate
+      neighbor default encapsulation mpls protocol mldp p2mp
+   !
+   address-family rt-membership
+      neighbor ROUTE_REFLECTORS activate
+   !
+   address-family vpn-ipv4
+      neighbor ROUTE_REFLECTORS activate
+   !
+   address-family vpn-ipv6
+      neighbor ROUTE_REFLECTORS activate
+   !   
+  !
+!

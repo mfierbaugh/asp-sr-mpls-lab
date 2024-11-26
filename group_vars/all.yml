@@ -1,0 +1,217 @@
+---
+ansible_python_interpreter: "/usr/bin/python3"
+
+lab_name: ASP_BASE_LAB
+
+# Merge or Relpace configuration
+replace_config: '1'
+
+# Webex Quiet mode - override on CLI
+webex_quiet: '1'
+
+# Default NSO sync-from action - pass in extra vars to override or change here to true
+sync_from: true
+
+# Local user accounts 
+users:
+    - name: admin
+      secret: cisco123
+    - name: nso
+      secret: cisco123
+
+#Management Network GW address
+management_gw: 198.18.128.1
+management_prefix: /18
+
+# Define IGP type (osfp, isis or both) if isis AFI is not defined then assume both (ipv4, ipv6)
+igp: 'isis'
+#isis_afi: 
+ospfv3: 
+
+# Use the remote_id and id to build the network_interfaces ipv4 ad ipv6 addresses. Less prone to errors
+auto_ip: true
+
+# BFD enable/disable
+bfd: false
+
+# BOB enable/disable
+bob: false
+
+# IGP Info unless defined by group
+igp_instances:
+  - name: ASP_LAB
+
+# IGP Authentication
+Auth: false
+
+# Define Flexable Algorithm
+Flex: true
+
+# Schema options:'Name: {Algo name}, Metric: {metric type}, affinity: {type affinity}, affinity_color: {color}'
+Flex_Algos:
+  - name: 128
+    descr: BLUE
+    affinity: exclude-any
+    affinity_color: GREEN
+  - name: 129
+    descr: RED
+    affinity: exclude-any
+    affinity_color: GREEN
+  - name: 130
+    descr: DELAY
+    metric: delay
+    affinity: exclude-any
+    affinity_color: GREEN
+
+Flex_Affinities:
+  - name: GREEN
+    BitPos: 0
+
+# Evaluate if unnumbered interface option should be considered in dataplane / network_interfaces hostvar
+unnumbered_interfaces: false
+
+# Authenticaion Key String
+key: cisco
+
+# MACSEC Key and Cipher Algorithm
+macsec: false
+macsec_key: 12345678123456781234567812345678
+macsec_key_algo: aes-128-cmac
+macsec_cipher_suite: GCM-AES-128
+
+# Enable VRF-Lite configuration
+vrf_lite: false
+
+# Enable ipv4
+ipv4: true
+
+#Enable client interfaces ipv4
+client_ipv4: true
+
+# Enable ipv6 
+ipv6: true
+
+# Enable client interfaces ipv6
+client_ipv6: true
+
+# Enable Core QoS Policies
+enable_core_qos: false
+
+# Enable rLFA if LDP is enabled or TILFA if SR is enabled
+lfa: true
+
+# enable SR-MPLS
+sr: true
+
+# Enable SRv6 uSID
+srv6: false
+
+# Enable SR Performance Monitoring
+sr_pm: true
+
+#enable LDP
+mpls_ldp: false
+
+#enable mLDP
+mpls_mldp: false
+
+#PIM RP Address
+rp_address: 10.200.200.1
+
+#Prefer SR
+sr_prefer: true
+
+# Enable MPLS Traffic Engineering
+mpls_te: false
+
+# enable ldp over mpls traffic engineering tunnels
+ldp_over_mplste: false
+
+#splunk
+splunk_enable: false
+splunk_server: 198.18.201.22
+splunk_syslog_port: 6514
+
+# Telemetry Configuration
+telemetry_enable: true
+telemetry_server: 198.18.129.100
+grpc_port: 57400
+
+#EPN Manager Server for logging and snmptraps
+epnm_server: 198.18.201.11
+
+# Crosswork Data Gateway Virtual IP
+cwdg: 198.18.201.30
+cwdg_syslog_port: 9514
+cwdg_snmp_trap_port: 1062
+
+# Crosswork Data Gateway Cloud
+cwdg_cloud: 198.18.201.46
+
+# Crosswork Data Gateway Cloud - BGP peering info for Traffic Analysis
+cwdg_traffic_peer: 10.200.200.46
+cwdg_traffic_asn: 65001
+
+# Define Segment Routing Global Block
+xr_srgb_start: 100000
+xr_srgb_end: 140000
+xe_srgb_start: 16000
+xe_srgb_end: 32767
+
+# Define Infra addresses
+primary_dns_server: '198.18.133.1'
+primary_ntp_server: '198.18.128.1'
+secondary_ntp_server:
+
+# Infrastructure Radius Server information
+radius_server: 198.18.201.13
+radius_auth_port: 1812
+radius_acct_port: 1813
+
+# BNG Mode
+bng_mode: 'cnbng'
+cnbng_cp: 198.18.201.38
+
+# BNG authentication - Freeradius Server
+bng_radius_server: 198.18.201.13
+bng_radius_auth_port: 1812
+bng_radius_acct_port: 1813
+
+# Access Domain unless defined by group
+AccDom: 100
+
+# Prefix for Infrastructure Loopbacks unless defined by grou
+loopbackPrefix: 1.1.
+loopbackCidr: /32
+
+# IPv6 prefix
+ipv6_prefix: 2001
+
+# prefix for P2P addresses
+interconnect_range: 10
+
+# prefix for SRv6 locators
+srv6_locators:
+  - name: ASP_LAB
+    prefix: fcbb:bb00
+  - name: ASP_Blue_Plane
+    prefix: fcbb:bb01
+    algo: 128
+  - name: ASP_Green_Plane
+    prefix: fcbb:bb02
+    algo: 129
+  - name: ASP_Avoid_Red
+    prefix: fcbb:bb03
+    algo: 130
+  - name: ASP_LowLatency
+    prefix: fcbb:bb04
+    algo: 131
+
+# Test veriables
+test_ping: ["1.1.1.51","1.1.1.52"]
+
+# Webex Intigration
+wx_recipient_type: roomId
+wx_recipient_id: 4a792280-67e0-11eb-b2fd-25d95e66297a
+wx_msg_type: text
+wx_personal_token: YWJmMjk1ZjYtYzJmNC00NDNmLWJjNmItNDM5M2E3MjNhYjBjYjIzZjlmZGUtNTFl_PF84_1eb65fdf-9643-417f-9974-ad72cae0e10f

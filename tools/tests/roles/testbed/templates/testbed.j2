@@ -1,0 +1,12 @@
+    {{ inventory_hostname }}:
+        type: 'router'
+        os: '{{ os }}'
+        alias: '{{ id }}'
+        credentials:
+            default:
+                username: {{ ansible_user }}
+                password: {{ ansible_pass }}
+        connections:
+            cli:
+                protocol: ssh
+                ip: "{{ ansible_host}}"

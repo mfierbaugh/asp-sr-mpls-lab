@@ -1,0 +1,17 @@
+---
+- name: Getting facts with napalm
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: napalm_get_facts
+      napalm_get_facts:
+        hostname={{ ansible_host }}
+        username={{ ansible_user }}
+        dev_os={{ os} }
+        password={{ ansible_pass }}
+      when: commit_changes == '0'
+      no_log: false
+      tags:
+        - base

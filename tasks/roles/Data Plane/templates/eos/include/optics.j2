@@ -1,0 +1,11 @@
+!
+{% for controller in optics if controller.enable %}
+controller Optics{{ controller.controller }}
+ description {{ controller.descr }}
+ dwdm-carrier {{ controller.grid }} frequency {{ controller.frequency }}
+{% if controller.portMode == true %}
+ port-mode speed {{ controller.speed }} mod {{ controller.mod }} fec {{ controller.fec }} diff disable
+{% else %}
+{% endif %}
+!
+{% endfor %}

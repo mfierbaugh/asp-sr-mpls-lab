@@ -1,0 +1,132 @@
+name: asp_lab
+
+mgmt:
+  network: mgmt_intf
+  bridge: mgmt_bridge
+  ipv4-subnet: 198.18.128.0/18
+  ipv4-gw: 198.18.130.5
+
+topology:
+  kinds:
+    c8000:
+      kind: cisco_c8000
+      image-pull-policy: Never
+      env:
+        CLAB_MGMT_VRF: Mgmt-intf
+        IPv4_GW: 198.18.128.1
+        
+    xrd:
+      kind: cisco_xrd
+      image: ${XRD_IMAGE:=ios-xr/xrd-control-plane}:${XRD_VERSION:=24.2.2}
+      env:
+        CLAB_MGMT_VRF: Mgmt-intf
+        IPv4_GW: 198.18.128.1
+      
+
+  nodes:
+    CORE.101:
+      kind: c8000
+      image: 8212-48fh-m_clab325:24.2.2
+      startup-config: configs/base_config.cfg
+      mgmt-ipv4: 198.18.130.101
+
+    CORE.102:
+      kind: c8000
+      image: 8212-48fh-m_clab325:24.2.2
+      startup-config: configs/base_config.cfg
+      mgmt-ipv4: 198.18.130.102
+
+    CORE.103:
+      kind: c8000
+      image: 8711-32fh-m_clab324:24.2.2
+      startup-config: configs/base_config.cfg
+      mgmt-ipv4: 198.18.130.103
+
+    CORE.104:
+      kind: c8000
+      image: 8711-32fh-m_clab324:24.2.2
+      startup-config: configs/base_config.cfg
+      mgmt-ipv4: 198.18.130.104
+
+    vRR-SR-PCE.51:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.51
+
+    vRR-SR-PCE.52:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.52
+
+    PE.21:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.21
+
+    PE.22:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.22
+
+    PE.23:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.23
+
+    PE.24:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.24
+
+    CE.11:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.11
+
+    CE.12:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.12
+
+    CE.13:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.13
+
+    CE.14:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.14
+
+
+  links:
+    - endpoints: ["CORE.101:FH0_0_0_0", "CORE.102:FH0_0_0_0"]
+    - endpoints: ["CORE.101:FH0_0_0_1", "CORE.103:FH0_0_0_1"]
+    - endpoints: ["CORE.101:FH0_0_0_2", "CORE.104:FH0_0_0_2"]
+    - endpoints: ["CORE.102:FH0_0_0_1", "CORE.104:FH0_0_0_1"]
+    - endpoints: ["CORE.103:FH0_0_0_0", "CORE.104:FH0_0_0_0"]
+    - endpoints: ["CORE.103:FH0_0_0_2", "CORE.102:FH0_0_0_2"]
+    - endpoints: ["PE.21:Gi0-0-0-0", "CORE.101:FH0_0_0_4"]
+    - endpoints: ["PE.21:Gi0-0-0-1", "CORE.103:FH0_0_0_4"]
+    - endpoints: ["PE.22:Gi0-0-0-0", "CORE.103:FH0_0_0_5"]
+    - endpoints: ["PE.22:Gi0-0-0-1", "CORE.101:FH0_0_0_5"]
+    - endpoints: ["PE.23:Gi0-0-0-0", "CORE.102:FH0_0_0_4"]
+    - endpoints: ["PE.23:Gi0-0-0-1", "CORE.104:FH0_0_0_4"]
+    - endpoints: ["PE.24:Gi0-0-0-0", "CORE.102:FH0_0_0_5"]
+    - endpoints: ["PE.24:Gi0-0-0-1", "CORE.104:FH0_0_0_5"]
+    - endpoints: ["PE.21:Gi0-0-0-2", "PE.22:Gi0-0-0-2"]
+    - endpoints: ["PE.23:Gi0-0-0-2", "PE.24:Gi0-0-0-2"]
+    - endpoints: ["PE.21:Gi0-0-0-3", "CE.11:Gi0-0-0-0"]
+    - endpoints: ["PE.21:Gi0-0-0-4", "CE.12:Gi0-0-0-0"]
+    - endpoints: ["PE.22:Gi0-0-0-3", "CE.11:Gi0-0-0-1"]
+    - endpoints: ["PE.22:Gi0-0-0-4", "CE.12:Gi0-0-0-1"]
+    - endpoints: ["PE.23:Gi0-0-0-3", "CE.13:Gi0-0-0-0"]
+    - endpoints: ["PE.23:Gi0-0-0-4", "CE.14:Gi0-0-0-0"]
+    - endpoints: ["PE.24:Gi0-0-0-3", "CE.13:Gi0-0-0-1"]
+    - endpoints: ["PE.24:Gi0-0-0-4", "CE.14:Gi0-0-0-1"]
+    - endpoints: ["CE.11:Gi0-0-0-2", "CE.12:Gi0-0-0-2"]
+    - endpoints: ["CE.13:Gi0-0-0-2", "CE.14:Gi0-0-0-2"]
+    - endpoints: ["vRR-SR-PCE.51:Gi0-0-0-0", "CORE.101:FH0_0_0_3"]
+    - endpoints: ["vRR-SR-PCE.51:Gi0-0-0-1", "CORE.103:FH0_0_0_3"]
+    - endpoints: ["vRR-SR-PCE.52:Gi0-0-0-0", "CORE.102:FH0_0_0_3"]
+    - endpoints: ["vRR-SR-PCE.52:Gi0-0-0-1", "CORE.104:FH0_0_0_3"]

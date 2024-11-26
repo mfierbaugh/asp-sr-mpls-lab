@@ -1,0 +1,205 @@
+testbed:
+  name: ASP_BASE_LAB
+  credentials:
+    default:
+      username: admin
+      password: cisco123
+      
+
+devices:
+  PE.21:
+    type: 'router'
+    os: 'iosxr'
+    alias: '21'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.21"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  PE.22:
+    type: 'router'
+    os: 'iosxr'
+    alias: '22'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.22"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  PE.23:
+    type: 'router'
+    os: 'iosxr'
+    alias: '23'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.23"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  PE.24:
+    type: 'router'
+    os: 'iosxr'
+    alias: '24'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.24"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  CE.11:
+    type: 'router'
+    os: 'iosxr'
+    alias: '21'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.11"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  CE.12:
+    type: 'router'
+    os: 'iosxr'
+    alias: '21'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.12"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  CE.13:
+    type: 'router'
+    os: 'iosxr'
+    alias: '21'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.13"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  CE.14:
+    type: 'router'
+    os: 'iosxr'
+    alias: '14'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.14"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  CORE.101:
+    type: 'router'
+    os: 'iosxr'
+    alias: '101'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.101"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  CORE.102:
+    type: 'router'
+    os: 'iosxr'
+    alias: '102'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.102"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  CORE.103:
+    type: 'router'
+    os: 'iosxr'
+    alias: '103'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.103"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  CORE.104:
+    type: 'router'
+    os: 'iosxr'
+    alias: '104'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.104"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  vRR-SR-PCE.51:
+    type: 'router'
+    os: 'iosxr'
+    alias: '51'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.51"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  vRR-SR-PCE.52:
+    type: 'router'
+    os: 'iosxr'
+    alias: '52'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.130.52"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10

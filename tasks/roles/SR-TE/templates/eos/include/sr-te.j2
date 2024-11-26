@@ -1,0 +1,16 @@
+router traffic-engineering
+   segment-routing
+      binding-sid specified-only disabled
+      !
+{% for policy in sr_policy.manual if policy is defined %}
+      policy endpoint {{policy.endpoint}} color {{policy.color}}
+        name {{ policy.name }}
+        !
+        path-group preference 100 computation local
+          path segment-routing
+{% endfor %}
+{% for policy in sr_policy.odn if policy is defined %}
+      policy endpoint dynamic color {{ policy.color }}
+         path-group preference 100 computation local
+            path segment-routing flex-algo {{ policy.algo }}
+{% endfor %}

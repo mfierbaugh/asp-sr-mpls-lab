@@ -1,0 +1,29 @@
+{% for vrf in l3vpn.vrf if l3vpn.enable %}
+vrf {{ vrf.name }}
+ rd {{ vrf.rd }}
+ address-family ipv4 unicast
+  import route-target
+{% for import_targets in vrf.rt_import %}
+   {{ import_targets.target }}
+{% endfor %}
+  !
+  export route-target
+{% for export_targets in vrf.rt_export %}
+   {{ export_targets.target }}
+{% endfor %}
+  !
+ !
+ address-family ipv6 unicast
+  import route-target
+{% for import_targets in vrf.rt_import %}
+   {{ import_targets.target }}
+{% endfor %}
+  !
+  export route-target
+{% for export_targets in vrf.rt_export %}
+   {{ export_targets.target }}
+{% endfor %}
+  !
+ !
+{% endfor %}
+!

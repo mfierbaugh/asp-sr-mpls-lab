@@ -1,0 +1,8 @@
+---
+- name: "Building MPLS Traffic Engineering Configuration"
+  template: src={{ os }}/mpls_te.j2 dest={{ baseconfdir.path }}/07_mpls_te.out
+  changed_when: False
+  #when: commit_changes | match('0')
+  #when: commit_changes == '0'
+  tags:
+    - fabric

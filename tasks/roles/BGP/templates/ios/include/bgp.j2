@@ -1,0 +1,54 @@
+router bgp {{BGP.ASN}}
+ bgp router-id {{loopbackPrefix}}0.{{id}}
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor SvRR peer-group
+ neighbor SvRR remote-as {{ BGP.ASN }}
+ neighbor SvRR update-source Loopback0
+ 
+{% if groups['PCE']|length>0 %}
+{% for host in groups['PCE'] %}
+{% if hostvars[host].AccDom == AccDom %}
+neighbor {{loopbackPrefix}}1.{{hostvars[host].id}} peer-group SvRR
+{% endif %}
+{% endfor %}
+{% elif groups['RR']|length>0 %}
+{% for host in groups['RR'] %}
+neighbor {{hostvars[host].loopbackPrefix}}1.{{hostvars[host].id}} peer-group SvRR
+{% endfor %}
+{% else %}
+{% for host in groups['Access'] %}
+{% if host != inventory_hostname %}
+neighbor {{hostvars[host].loopbackPrefix}}0.{{hostvars[host].id}} peer-group SvRR
+{% endif %}
+{% endfor %}
+{% endif %}
+ !
+ address-family ipv4
+ exit-address-family
+ !
+{% for a in BGP.addressFamilies %}
+{% if a.Type == 'Service' %}
+ address-family {{a.addressFamily}}
+  neighbor SvRR send-community both
+  neighbor SvRR next-hop-self
+{% if groups['PCE']|length>0 %}
+{% for host in groups['PCE'] %}
+{% if hostvars[host].AccDom == AccDom %}
+neighbor {{loopbackPrefix}}1.{{hostvars[host].id}} activate
+{% endif %}
+{% endfor %}
+{% elif groups['RR']|length>0 %}
+{% for host in groups['RR'] %}
+neighbor {{hostvars[host].loopbackPrefix}}1.{{hostvars[host].id}} activate
+{% endfor %}
+{% else %}
+{% for host in groups['Access'] %}
+{% if host != inventory_hostname %}
+neighbor {{hostvars[host].loopbackPrefix}}0.{{hostvars[host].id}} activate
+{% endif %}
+{% endfor %}
+{% endif %}
+exit-address-family
+{% endif %}
+{% endfor %}

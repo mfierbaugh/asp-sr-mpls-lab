@@ -1,0 +1,82 @@
+id: 64
+os: iosxr
+ansible_network_os: cisco.iosxr.iosxr
+ansible_password: cisco123
+napalm_driver: iosxr_netconf
+xr_7: true
+dnx: false
+management_int: 0/RP0/CPU0/0
+ansible_host: 198.18.205.64
+management_prefix: /24
+max_sid_depth: 6
+asn: 400805
+bgp_rrc: true
+bgp_rr: false
+netflow: false
+xrd: true
+
+optics:
+  - {enable: false}
+
+network_interfaces:
+  - {name: GigabitEthernet0/0/0/0, descr: "WC1-04", vlan: 0, unnumbered: false, igp_inst: DISNEY_LAB, color: RED, igp_metric: 1000, te_metric: 120, ipv4: 10.104.64.0, mask: 255.255.255.254, ipv6: '10:20:50:1/127', mtu: 9000}
+  - {name: GigabitEthernet0/0/0/1, descr: "WC2-04", vlan: 0, unnumbered: false, igp_inst: DISNEY_LAB, color: RED, igp_metric: 1000, te_metric: 120, ipv4: 10.204.64.0, mask: 255.255.255.254, ipv6: '10:20:50:1/127', mtu: 9000}
+  - {name: GigabitEthernet0/0/0/2, descr: "WE2.DC2", vlan: 0, unnumbered: false, igp_inst: DISNEY_LAB, color: RED, igp_metric: 10, te_metric: 120, ipv4: 10.63.64.1, mask: 255.255.255.254, ipv6: '10:20:50:1/127', mtu: 9000}
+
+
+Flex_Algo_Membership: {128, 129, 130, 131}
+
+bfd_multipath:
+  - {enable: true, location: 0/0/CPU0 }
+
+bundle_members:
+  - {enable: False}
+
+breakout:
+  - {enable: False}
+
+static_routes:
+  - {enable: False}
+
+ebgp_peers:
+  - { enable: false }
+
+
+
+sr_pce:
+  - ip: 10.1.1.53
+    v6: 53:53:53::53
+    precedence: 1
+  - ip: 10.1.1.54
+    v6: 54:54:54::54
+    precedence: 2
+
+route_reflectors:
+  - ip: 10.1.1.53
+    v6: 53:53:53::53
+    precedence: 1
+  - ip: 10.1.1.54
+    v6: 54:54:54::54
+    precedence: 2
+
+multicast:
+  msdp_peers:
+    - {ip: 10.62.55.1, connect_source: Loopback100, vrf: UNIFIED, mesh_group: DEET_DS }
+    - {ip: 10.63.55.1, connect_source: Loopback100, vrf: UNIFIED, mesh_group: DEET_DS }
+    - {ip: 10.61.55.1, connect_source: Loopback100, vrf: UNIFIED, mesh_group: DEET_DS }
+
+services:
+  l3_interfaces:
+#  - {name: TenGigE0/0/0/0, descr: "Internet Traffic interface", vlan: 1111, ipv4: 11.11.11.1/24, ipv6: '11:11:11:0/127', mtu: 9192}
+    - {name: Loopback100, descr: "DISNEY MSDP PEERING INTERFACE", vlan: 0, ipv4: 10.64.55.1/32, ipv6: '10:90:0:1/127'}
+
+  evpn_vpws:
+#    - { name: evpn_vpws_10_14, interface: TenGigE0/0/0/0.1000, evi: 1000 }
+
+  l3vpn:
+    - name: UNIFIED
+      vpn_id: 55
+      interfaces: 
+        - { name: Loopback110 }
+      bgp_neighbors:
+        - { enable: false }

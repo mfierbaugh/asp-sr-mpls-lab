@@ -1,0 +1,9 @@
+---
+- name: Build Baseline
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: Build baseline
+    command: python ./get_baseline.py

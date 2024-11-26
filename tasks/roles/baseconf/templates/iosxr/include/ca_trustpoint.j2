@@ -1,0 +1,13 @@
+!
+crypto ca trustpoint Trustpool
+ crl optional
+crypto ca trustpoint system-trustpoint
+ keypair rsa system-enroll-key
+ ca-keypair rsa system-root-key
+ ip-address 10.1.1.{{ id }}
+ subject-name CN=cisco.com
+ lifetime certificate 3650
+ enrollment url self
+ message-digest sha256
+ lifetime ca-certificate 3650
+!

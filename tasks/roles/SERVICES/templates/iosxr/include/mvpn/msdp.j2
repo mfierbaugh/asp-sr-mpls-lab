@@ -1,0 +1,13 @@
+router msdp
+{%for vrf in services.mvpn%}
+ vrf {{ vrf.name }}
+  originator-id Loopback110
+{%for host in groups['ProviderEdge']%}
+{%if host != inventory_hostname%}
+  peer 10.{{ hostvars[host].id }}.0.1
+   connect-source Loopback110
+   keepalive 3 30
+   mesh-group {{ vrf.name }}
+{%endif%}
+{%endfor%}
+{%endfor%}

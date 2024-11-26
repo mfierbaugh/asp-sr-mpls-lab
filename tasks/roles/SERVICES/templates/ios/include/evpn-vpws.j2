@@ -1,0 +1,14 @@
+{% for service in services.evpnvpws %}
+l2vpn evpn instance {{service.vpnID}} point-to-point
+vpws context vc{{service.vpnID}}
+service target {{service.DestAC}} source {{service.SourceAC}}
+{% for interface in interface_list %}
+{% if ServiceInterfaces[interface] is defined and ServiceInterfaces[interface]['vpnID'] == service.vpnID %}
+{% if ServiceInterfaces[interface]['VLAN'] == 'untagged' %}
+   interface {{interface}} service-instance 0
+{% else%}
+   member {{interface}} service-instance {{ServiceInterfaces[interface]['VLAN']}}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endfor %}

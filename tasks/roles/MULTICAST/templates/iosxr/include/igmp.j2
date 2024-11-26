@@ -1,0 +1,8 @@
+router igmp
+{% if igmp.interfaces %}
+{% for interface in igmp.interfaces %}
+ interface {{ interface.name }}
+ !
+{% endfor %}
+{% endif %}
+ version 2

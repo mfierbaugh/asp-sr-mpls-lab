@@ -1,0 +1,44 @@
+{% for inst in igp_instances %}
+{% if igp =='isis'%}
+router isis {{ inst.name }}
+ distribute link-state
+{% elif igp == 'ospf'%}
+router ospf {{ inst.name }}
+ distribute link-state
+{% endif %}
+{% endfor %}
+!
+pce
+{% if ipv4 %}
+ address ipv4 {{ loopbackPrefix }}1.{{ id }}
+{% endif %}
+ timers  
+  reoptimization 600 
+{% if ipv6 and not ipv4 %}
+ address ipv6 100:100:100::{{ id }}
+{% endif %}
+ api
+  user admin
+   password encrypted 01100F175804575D72
+  !
+  vrf Mgmt-intf
+  sibling ipv4 {{ pce_sibling }}
+  ipv4
+   address {{ ansible_host }}
+ !
+{% for host in pce_peers %}
+{% if ipv4 %}
+ state-sync ipv4 {{ host.ip }}
+{% endif %}
+{% if ipv6 and not ipv4 %}
+ state-sync ipv6 {{ host.v6 }}
+{% endif %}
+{% endfor %}
+ segment-routing
+  traffic-eng
+   p2mp 
+    label-range min 30000 max 60000
+    fast-reroute lfa
+   cspf
+    sr-native
+     force

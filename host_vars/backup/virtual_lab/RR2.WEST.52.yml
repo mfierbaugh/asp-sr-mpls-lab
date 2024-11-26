@@ -1,0 +1,78 @@
+id: 52
+os: iosxr
+ansible_password: cisco123
+napalm_driver: iosxr_netconf
+xr_7: true
+dnx: false
+management_int: 0/RP0/CPU0/0
+max_sid_depth: 6
+asn: 400805
+bgp_rrc: false
+bgp_rr: true
+netflow: false
+xrd: true
+bgp_cluster_id: 0.1.1.0
+
+optics:
+  - {enable: false}
+
+network_interfaces:
+  - {name: GigabitEthernet0/0/0/0, descr: "WC1-03", vlan: 0, unnumbered: false, igp_inst: DISNEY_LAB, color: RED, igp_metric: 2000, te_metric: 120, ipv4: 10.103.52.0, mask: 255.255.255.254, ipv6: '10:20:50:1/127', mtu: 9000}
+  - {name: GigabitEthernet0/0/0/1, descr: "WC2-03", vlan: 0, unnumbered: false, igp_inst: DISNEY_LAB, color: RED, igp_metric: 2000, te_metric: 120, ipv4: 10.203.52.0, mask: 255.255.255.254, ipv6: '10:20:50:1/127', mtu: 9000}
+
+
+Flex_Algo_Membership: {128, 129, 130}
+
+bfd_multipath:
+  - {enable: true, location: 0/0/CPU0 }
+
+bundle_members:
+  - {enable: False}
+
+breakout:
+  - {enable: False}
+
+static_routes:
+  - {enable: False}
+
+route_reflector_clients:
+  - ip: 1.1.1.61
+    v6: 61:61:61::61
+  - ip: 1.1.1.63
+    v6: 63:63:63::63
+
+route_reflector_peers:
+  - ip: 1.1.1.51
+    v6: 51:51:51::51
+  - ip: 1.1.1.53
+    v6: 53:53:53::53
+  - ip: 1.1.1.54
+    v6: 54:54:54::54
+
+ebgp_peers:
+  - { enable: false }
+
+pce_peers:
+  - ip: 1.1.1.51
+    v6: 51:51:51::51
+  - ip: 1.1.1.53
+    v6: 53:53:53::53
+  - ip: 1.1.1.54
+    v6: 54:54:54::54
+
+pce_sibling: 198.18.205.51
+
+#tree_sid:
+#  endpoint_sets:
+#    - name: OLT-MCAST-ENDPOINTS
+#      endpoints:
+#        - ipv4: 10.1.1.10
+#        - ipv4: 10.1.1.11
+#        - ipv4: 10.1.1.12
+#        - ipv4: 10.1.1.13
+#  policies:
+#    - name: OLT-MCAST-VIDEO
+#      source: 10.1.1.26
+#      color: 100
+#      endpoint_set: OLT-MCAST-ENDPOINTS
+#      label: 18000

@@ -1,0 +1,13 @@
+{% for vrf in services.vrf_lite %}
+vrf {{ vrf.name }}
+ address-family ipv4 unicast
+ !
+ address-family ipv6 unicast
+ !
+{% for interface in vrf.interfaces %}
+interface {{ interface.name }}
+ vrf {{ vrf.name }}
+ !
+ exit
+{% endfor %}
+{% endfor %}

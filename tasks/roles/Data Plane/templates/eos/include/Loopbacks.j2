@@ -1,0 +1,7 @@
+interface Loopback0
+{% if ipv4 %}
+ ip address {{ loopbackPrefix }}1.{{ id }}/32
+{% endif %}
+{% if ipv6 %}
+ ipv6 address {{ id }}:{{ id }}:{{ id }}::{{ id }}/128
+{% endif %}

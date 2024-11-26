@@ -1,0 +1,7 @@
+# Device Name (Required),Description,Tags,Location,Timezone,City,Country, Gateway for Trust (Required for Trust Device),SSH Credential (Required for Trust Device),Hostname or IP Address (Required),SSH Port,Gateway for Traffic Analysis (Required for Traffic Analysis device),Netflow Source Address (Required for Traffic Analysis device),SNMP Credential (Required for Traffic Analysis device),SNMP Address,BGP Credential,BGP Address,ASN (Required for Traffic Analysis device),Device Group
+{% for host in groups['ProviderEdge'] %}
+{{ hostvars[host].inventory_hostname }},,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,{{ hostvars[host].ansible_host }},22,cwdg-cloud1,{{ hostvars[host].ansible_host }},RBB_LAB_SNMP,{{ hostvars[host].ansible_host }},,1.1.1.{{ hostvars[host].id }},{{ hostvars[host].asn }},DISNEY
+{% endfor %}
+{% for host in groups['Core'] %}
+{{ hostvars[host].inventory_hostname }},,,RTP4-2,America/New_York,Raleigh,USA,cwdg-cloud2,RBB_LAB_SSH,{{ hostvars[host].ansible_host }},22,cwdg-cloud1,{{ hostvars[host].ansible_host }},RBB_LAB_SNMP,{{ hostvars[host].ansible_host }},,1.1.1.{{ hostvars[host].id }},{{ hostvars[host].asn }},DISNEY
+{% endfor %}

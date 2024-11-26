@@ -1,0 +1,23 @@
+{% for vrf in l3vpn.vrf if l3vpn.enable %}
+{% for interface in vrf.interfaces %}
+interface {{ interface.name }}
+  description *** To {{ interface.descr }} ***
+{% if interface.vlan != 0 %}
+  encapsulation dot1q {{ interface.vlan }}
+{% endif %}
+  vrf {{ vrf.name }}
+{% if client_ipv4 %}
+  ipv4 address {{ interface.ipv4 }} {{ interface.mask }}
+{% endif %}
+{% if client_ipv6 %}
+  ipv6 address {{ ipv6_prefix }}::{{ interface.ipv6 }}
+{% endif %}
+  flow ipv4 monitor ccni sampler ccni-sampler ingress
+{% if ipv6 %}
+  flow ipv6 monitor ccni-ipv6 sampler ccni-sampler ingress
+{% endif %}
+  no shutdown
+!
+{% endfor %}
+{% endfor %}
+!

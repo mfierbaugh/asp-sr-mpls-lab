@@ -1,0 +1,6 @@
+---
+AccDom: 101
+
+# Prefix for Infrastructer Loopbacks
+loopbackPrefix: 10.101.
+loopbackCidr: /32

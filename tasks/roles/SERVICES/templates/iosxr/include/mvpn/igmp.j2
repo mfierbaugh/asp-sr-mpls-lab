@@ -1,0 +1,11 @@
+router igmp
+{%for vrf in services.mvpn%}
+  vrf {{ vrf.name }}
+{%if vrf.interfaces.igmp%}
+{%for interface in vrf.interfaces.igmp%}
+    interface {{ interface.name }}
+    !
+{%endfor%}
+{%endif%}
+    version 2
+{%endfor%}

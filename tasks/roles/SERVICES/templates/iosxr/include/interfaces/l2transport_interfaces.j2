@@ -1,0 +1,33 @@
+
+{% for interface in services.l2transport_interfaces %}
+interface {{ interface.name }}
+  mtu 9216
+  load-interval 30
+  no shutdown
+!
+{% if interface.vlan != 0 %}
+interface {{ interface.name }}.{{ interface.vlan }} l2transport
+  description *** {{ interface.descr }} ***
+  load-interval 30
+{% if interface.vlan != 0 %}
+  encapsulation dot1q {{ interface.vlan }}
+{% endif %}
+{% if interface.rewrite == 'pop-1'%}
+  rewrite ingress tag pop 1 symmetric
+{% elif interface.rewrite == 'pop-2' %}
+  rewrite ingress tag pop 2 symmetric
+{% elif interface.rewrite == 'push-1' %}
+  rewrite ingress tag push dot1q {{ interface.svlan }} symmetric
+{% elif interface.rewrite == 'push-2' %}
+  rewrite ingress tag push dot1q {{ interface.svlan }} second-dot1q {{ interface.cvlan }} symmetric
+{% endif %}
+ mtu 9216
+{% else %}
+ l2transport
+  propagate remote-status
+  service-policy input core-ingress-classifier
+  service-policy output core-egress-queuing
+  service-policy output core-egress-exp-marking
+{% endif %}
+!
+{% endfor %}

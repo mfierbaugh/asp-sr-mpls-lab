@@ -1,0 +1,12 @@
+!
+{% for user in users -%}
+username {{ user.name }}
+ group root-lr
+ group cisco-support
+ secret {{ user.secret }}
+!
+{% endfor %}
+!
+aaa authorization exec default local 
+aaa authentication login default local 
+!

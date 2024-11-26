@@ -1,0 +1,115 @@
+{% if not xr_7 %}
+!
+tpa
+ vrf Mgmt-intf
+  address-family ipv4
+   default-route mgmt
+   !
+   update-source dataports mgmtEth{{ management_int }} 
+  !
+ !
+!
+grpc
+ vrf Mgmt-intf
+ port {{grpc_port}}
+ no-tls
+!
+{% endif %}
+!
+telemetry model-driven
+ destination-group DGroup1
+  vrf Mgmt-intf
+  address-family ipv4 {{telemetry_server}} port {{grpc_port}}
+   encoding self-describing-gpb
+   protocol grpc no-tls
+  !
+ !
+ sensor-group health
+  sensor-path Cisco-IOS-XR-shellutil-oper:system-time/uptime
+  sensor-path Cisco-IOS-XR-wdsysmon-fd-oper:system-monitoring/cpu-utilization
+  sensor-path Cisco-IOS-XR-nto-misc-oper:memory-summary/nodes/node/summary
+ !
+ sensor-group optics
+  sensor-path Cisco-IOS-XR-controller-optics-oper:optics-oper/optics-ports/optics-port/optics-info
+ !
+ sensor-group mpls-te
+  sensor-path Cisco-IOS-XR-mpls-te-oper:mpls-te/tunnels/summary
+  sensor-path Cisco-IOS-XR-ip-rsvp-oper:rsvp/interface-briefs/interface-brief
+  sensor-path Cisco-IOS-XR-ip-rsvp-oper:rsvp/counters/interface-messages/interface-message
+ !
+ sensor-group routing
+ {% if igp == 'isis' %}
+  sensor-path Cisco-IOS-XR-clns-isis-oper:isis/instances/instance/levels/level/adjacencies/adjacency
+  sensor-path Cisco-IOS-XR-clns-isis-oper:isis/instances/instance/statistics-global
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/vrfs/vrf/afs/af/safs/saf/ip-rib-route-table-names/ip-rib-route-table-name/protocol/isis/as/information
+ {% elif igp == 'ospf' %}
+  sensor-path Cisco-IOS-XR-ipv4-ospf-oper:ospf/processes/process/default-vrf/adjacency-information
+  sensor-path Cisco-IOS-XR-ipv4-ospf-oper:ospf/processes/process/default-vrf/statistics
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/vrfs/vrf/afs/af/safs/saf/ip-rib-route-table-names/ip-rib-route-table-name/protocol/ospf/as/information
+ {% endif %}
+  sensor-path Cisco-IOS-XR-ipv4-bgp-oper:bgp/instances/instance/instance-active/default-vrf/process-info
+ !
+ sensor-group perf-mgmt
+  sensor-path Cisco-IOS-XR-perf-meas-oper:performance-measurement/nodes/node/interfaces/interface-details/interface-detail/delay-measurement-session/current-probe/probe-results
+ !
+ sensor-group interfaces
+  sensor-path Cisco-IOS-XR-pfi-im-cmd-oper:interfaces/interface-summary
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/data-rate
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/generic-counters
+ !
+ sensor-group segment-routing
+  sensor-path Cisco-IOS-XR-infra-xtc-agent-oper:xtc/policy-summary
+  sensor-path Cisco-IOS-XR-infra-xtc-agent-oper:xtc/topology-summaries/topology-summary
+ !
+ sensor-group dataplane-monitor
+  sensor-path Cisco-IOS-XR-platforms-ofa-oper:ofa/stats/nodes/node
+ !
+ subscription health
+  sensor-group-id health strict-timer
+  sensor-group-id health sample-interval 30000
+  destination-id DGroup1
+  source-interface mgmtEth{{ management_int }} 
+ !
+ subscription optics
+  sensor-group-id optics strict-timer
+  sensor-group-id optics sample-interval 30000
+  destination-id DGroup1
+  source-interface mgmtEth{{ management_int }} 
+ !
+ subscription mpls-te
+  sensor-group-id mpls-te strict-timer
+  sensor-group-id mpls-te sample-interval 30000
+  destination-id DGroup1
+  source-interface mgmtEth{{ management_int }} 
+ !
+ subscription routing
+  sensor-group-id routing strict-timer
+  sensor-group-id routing sample-interval 30000
+  destination-id DGroup1
+  source-interface mgmtEth{{ management_int }} 
+ !
+ subscription perf-mgmt
+  sensor-group-id perf-mgmt strict-timer
+  sensor-group-id perf-mgmt sample-interval 30000
+  destination-id DGroup1
+  source-interface mgmtEth{{ management_int }} 
+ !
+ subscription interfaces
+  sensor-group-id interfaces strict-timer
+  sensor-group-id interfaces sample-interval 30000
+  destination-id DGroup1
+  source-interface mgmtEth{{ management_int }} 
+ !
+ subscription segment-routing
+  sensor-group-id segment-routing strict-timer
+  sensor-group-id segment-routing sample-interval 30000
+  destination-id DGroup1
+  source-interface mgmtEth{{ management_int }} 
+ !
+ subscription dataplane-monitor
+  sensor-group-id dataplane-monitor strict-timer
+  sensor-group-id dataplane-monitor sample-interval 30000
+  destination-id DGroup1
+  source-interface mgmtEth{{ management_int }} 
+ !
+!

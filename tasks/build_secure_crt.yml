@@ -1,0 +1,24 @@
+---
+- name: Build Secure CRT Config File
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  pre_tasks:
+
+    - name: Remove old config
+      file: path=../tools/secure_crt/secure_crt_{{ lab_name }}.xml state=absent
+      changed_when: False
+      #when: commit_changes | match('0')
+      #when: commit_changes == '0'
+
+      tags:
+        - base
+
+    - name: "Building SecureCRT config file"
+      template: src=../tools/templates/secure_crt.j2 dest=../tools/secure_crt/secure_crt_{{ lab_name }}.xml
+      changed_when: False
+      #when: commit_changes | match('0')
+      #when: commit_changes == '0'
+      tags:
+        - fabric

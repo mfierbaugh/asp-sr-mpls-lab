@@ -1,0 +1,8 @@
+---
+- name: "Building MPLS Label Distribution Protocol Configuration"
+  template: src={{ os }}/ldp.j2 dest={{ baseconfdir.path }}/03_LDP.out
+  changed_when: False
+  #when: commit_changes | match('0')
+  #when: commit_changes == '0'
+  tags:
+    - fabric

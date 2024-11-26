@@ -1,0 +1,6 @@
+{% if services.evpnvpws is defined %}
+{% include "include/evpn-vpws.j2" %}
+{% endif %}
+{% if services.srte is defined %}
+{% include "include/srtePolicy.j2" %}
+{% endif %}

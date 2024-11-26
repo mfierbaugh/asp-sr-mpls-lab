@@ -1,0 +1,32 @@
+{% for interface in interface_list %}
+{% if interfaces[interface] is defined %} 
+
+{% if id < interfaces[interface]['remoteNodeID'] %}
+ {% set A = id %}
+ {% set B = interfaces[interface]['remoteNodeID'] %}
+ {% set C = 0 %}
+{% else %}
+ {% set A = interfaces[interface]['remoteNodeID'] %}
+ {% set B = id %}
+ {% set C = 1 %}
+{% endif %}
+
+interface {{ interface }}
+ description Link to Node {{ interfaces[interface]['remoteNodeID'] }}
+ ip address {{interconnect_range}}.{{A}}.{{B}}.{{C}} 255.255.255.254
+ no ip unreachables
+ mpls ip
+ carrier-delay 0
+ load-interval 30
+ dampening
+
+{% elif ServiceInterfaces[interface] is defined %}
+interface {{interface}}
+ description AC Interface
+
+{% elif not ( interface.startswith(('Mgmt', 'Loopback', 'Null', 'srte', 'GigabitEthernet1')) ) and '.' not in interface %}
+interface {{ interface }}
+ description Available Port
+  shutdown
+{% endif %}
+{% endfor %}

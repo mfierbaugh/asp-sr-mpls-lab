@@ -1,0 +1,6 @@
+{% for host in groups['PCE'] %}
+{% if hostvars[host].AccDom == AccDom %}
+mpls traffic-eng pcc peer {{loopbackPrefix}}1.{{hostvars[host].id}} source {{loopbackPrefix}}0.{{id}}
+{% endif %}
+{% endfor %}
+mpls traffic-eng pcc report-all

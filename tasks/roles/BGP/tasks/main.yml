@@ -1,0 +1,8 @@
+---
+- name: "Building BGP Configuration"
+  template: src={{ os }}/BGP.j2 dest={{ baseconfdir.path }}/05_BGP.out
+  changed_when: False
+  #when: commit_changes | match('0')
+  #when: commit_changes == '0'
+  tags:
+    - BGP

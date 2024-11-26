@@ -1,0 +1,5 @@
+﻿Provider name,Family,Properties,Connectivity type,Connectivity IP,Connectivity domain,Connectivity host,Connectivity port,Connectivity timeout,Credential profile,Model prefix,Model version,Certificate profile,Connectivity encoding
+nso,ROBOT_PROVIDER_NSO,ca_device_auth_nso:ca_device_auth_nso;forward:true;nso_crosslaunch_url:http://198.18.201.24:8888,ROBOT_MSVC_TRANS_NETCONF;HTTPS,198.18.201.24;198.18.201.24,,,2022;8888,90;90,nso,Cisco-IOS-XR,7.52.2,,;;
+{% for host in groups['PCE'] %}
+{{ hostvars[host].inventory_hostname }},ROBOT_PROVIDER_SR_PCE,auto-onboard:off,ROBOT_MSVC_TRANS_HTTP,{{ hostvars[host].ansible_host }},,,8080,30,rbb_lab,,,,;
+{% endfor %}

@@ -1,0 +1,35 @@
+{% for interface in network_interfaces %}
+interface {{ interface.name }}
+  description *** To {{ interface.descr }} ***
+  mtu {{interface.mtu}}
+  no switchport
+{% if ipv4 %}
+  ip address {{ interface.ipv4 }} {{ interface.mask }}
+{% endif %}
+{% if ipv6 %}
+{% if unnumbered_interfaces and interface.unnumbered %}
+  ipv6 enable
+{% else %}
+  ipv6 address {{ ipv6_prefix }}::{{ interface.ipv6 }}
+{% endif %}
+{% endif %}
+{% if netflow %}
+  flow ipv4 monitor ccni sampler ccni-sampler ingress
+{% if ipv6 %}
+  flow ipv6 monitor ccni-ipv6 sampler ccni-sampler ingress
+{% endif %}
+{% endif %}
+  load-interval 30
+  no shutdown
+!
+{% endfor %}
+!
+{% for bundle in bundle_members if bundle.enable %}
+!
+interface {{ bundle.member }}
+ description {{ bundle.descr }}
+ bundle id {{ bundle.id }} mode on
+ no shutdown
+ carrier-delay up 0 down 0
+!
+{% endfor %}

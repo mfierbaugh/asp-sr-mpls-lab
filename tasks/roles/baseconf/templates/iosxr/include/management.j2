@@ -1,0 +1,12 @@
+!
+interface MgmtEth0/RP0/CPU0/0
+ vrf Mgmt-intf
+ ipv4 address {{ ansible_host }}{{ management_prefix }}
+!
+router static
+ vrf Mgmt-intf
+  address-family ipv4 unicast
+   0.0.0.0/0 {{ management_gw }}
+   exit
+  exit
+!

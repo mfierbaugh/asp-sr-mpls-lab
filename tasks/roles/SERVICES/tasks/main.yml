@@ -1,0 +1,8 @@
+---
+- name: "Building Service Configuration"
+  template: src={{ os }}/SERVICES.j2 dest={{ baseconfdir.path }}/08_SERVICES.out
+  changed_when: False
+  #when: commit_changes | match('0')
+  #when: commit_changes == '0'
+  tags:
+    - services

@@ -1,0 +1,25 @@
+
+{% for interface in services.l2transport_interfaces %}
+interface {{ interface.name }}
+  no shutdown
+!
+{% if interface.vlan != 0 %}
+interface {{ interface.name }}.{{ interface.vlan }} l2transport
+  description *** {{ interface.descr }} ***
+{% if interface.vlan != 0 %}
+  encapsulation dot1q {{ interface.vlan }}
+{% endif %}
+{% if interface.rewrite == 'pop-1'%}
+  rewrite ingress tag pop 1 symmetric
+{% elif interface.rewrite == 'pop-2' %}
+  rewrite ingress tag pop 2 symmetric
+{% elif interface.rewrite == 'push-1' %}
+  rewrite ingress tag push dot1q {{ interface.svlan }} symmetric
+{% elif interface.rewrite == 'push-2' %}
+  rewrite ingress tag push dot1q {{ interface.svlan }} second-dot1q {{ interface.cvlan }} symmetric
+{% endif %}
+{% else %}
+ l2transport
+{% endif %}
+!
+{% endfor %}

@@ -1,0 +1,233 @@
+testbed:
+  name: DISNEY-BACKBONE
+  credentials:
+    default:
+      username: admin
+      password: cisco123
+      
+
+devices:
+  WE1.DC1.61:
+    type: 'router'
+    os: 'iosxr'
+    alias: '61'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.144.15"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  WE2.DC1.62:
+    type: 'router'
+    os: 'iosxr'
+    alias: '62'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.144.16"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  WE1.DC2.63:
+    type: 'router'
+    os: 'iosxr'
+    alias: '63'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.145.32"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  WE2.DC2.64:
+    type: 'router'
+    os: 'iosxr'
+    alias: '64'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.145.33"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  WC1.101:
+    type: 'router'
+    os: 'iosxr'
+    alias: '101'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.144.24"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  WC2.201:
+    type: 'router'
+    os: 'iosxr'
+    alias: '201'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.144.22"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  WC1.102:
+    type: 'router'
+    os: 'iosxr'
+    alias: '102'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.144.13"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  WC2.202:
+    type: 'router'
+    os: 'iosxr'
+    alias: '202'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.144.17"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  WC1.103:
+    type: 'router'
+    os: 'iosxr'
+    alias: '103'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.145.31"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  WC2.203:
+    type: 'router'
+    os: 'iosxr'
+    alias: '203'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.144.21"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  WC1.104:
+    type: 'router'
+    os: 'iosxr'
+    alias: '104'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.144.18"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  WC2.204:
+    type: 'router'
+    os: 'iosxr'
+    alias: '204'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.144.19"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  RR1.WEST.51:
+    type: 'router'
+    os: 'iosxr'
+    alias: '51'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.144.51"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  RR2.WEST.52:
+    type: 'router'
+    os: 'iosxr'
+    alias: '52'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.144.52"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  RR1.EAST.53:
+    type: 'router'
+    os: 'iosxr'
+    alias: '53'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.144.53"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+  RR2.EAST.54:
+    type: 'router'
+    os: 'iosxr'
+    alias: '54'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "198.18.144.54"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10

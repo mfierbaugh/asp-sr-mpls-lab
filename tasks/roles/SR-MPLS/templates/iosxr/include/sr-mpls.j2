@@ -1,0 +1,117 @@
+segment-routing
+ global-block {{xr_srgb_start}} {{xr_srgb_end}}
+!
+{% if igp == 'isis' %}
+{% for isis in igp_instances %}
+router isis {{ isis.name }}
+{% if isis.vrf is not defined %}
+ distribute link-state
+{% endif %}
+{% if Flex and isis.vrf is not defined %}
+{% for Aff in Flex_Affinities %}
+ affinity-map {{ Aff.name }} bit-position {{ Aff.BitPos }}
+{% endfor %}
+{% for algo in Flex_Algos %}
+{% if algo.name in Flex_Algo_Membership %}
+ flex-algo {{ algo.name }}
+  advertise-definition
+{% if algo.metric is defined %}
+  metric-type {{ algo.metric }}
+{% endif %}
+{% if algo.affinity is defined %}
+  affinity {{ algo.affinity }} {{ algo.affinity_color }}
+{% endif %}
+ !
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if ipv4 %}
+ address-family ipv4 unicast
+{% if isis.vrf is not defined %}
+ microloop avoidance segment-routing
+ segment-routing mpls {% if sr_prefer %}sr-prefer{% endif %}
+ 
+{% endif %}
+{% endif %}
+{% if ipv6 %}
+ address-family ipv6 unicast
+{% if isis.vrf is not defined %}
+ microloop avoidance segment-routing
+ segment-routing mpls
+{% endif %}
+{% endif %}
+ interface Loopback0
+{% if ipv4 %}
+  address-family ipv4 unicast
+{% if isis.vrf is not defined %}
+   prefix-sid index {{id}}
+{% endif %}
+{% if Flex and isis.vrf is not defined %}
+{% for algo in Flex_Algos %}
+{% if algo.name in Flex_Algo_Membership %}
+   prefix-sid algorithm {{ algo.name }} absolute {{ algo.name }}{{ '%03d' % (id) }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% if Flex and isis.vrf is not defined %}
+{% if Flex_Affinity is defined %}
+{% for affinity in Flex_Affinity %}
+interface {{ affinity.interface }}
+ affinity flex-algo {{ affinity.color }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endfor %}
+
+{% elif igp == 'ospf' %}
+{% if ipv4 %}
+{% for ospf in igp_instances %}
+router ospf {{ ospf.name }}
+ segment-routing mpls 
+ segment-routing forwarding mpls
+ microloop avoidance segment-routing
+ distribute link-state
+ mpls traffic-eng router-id Loopback0
+{% if Flex and isis.vrf is not defined %}
+{% for Aff in Flex_Affinities %}
+ affinity-map {{ Aff.name }} bit-position {{ Aff.BitPos }}
+{% endfor %}
+{% for algo in Flex_Algos %}
+{% if algo.name in Flex_Algo_Membership %}
+ flex-algo {{ algo.name }}
+  advertise-definition
+{% if algo.metric is defined %}
+  metric-type {{ algo.metric }}
+{% endif %}
+{% if algo.affinity is defined %}
+  affinity {{ algo.affinity }}
+  {{ algo.affinity_color }}
+{% endif %}
+ !
+{% endif %}
+{% endfor %}
+{% endif %}
+ area 0
+  interface Loopback0
+   prefix-sid index {{ id }}
+{% if Flex %}
+{% for algo in Flex_Algos %}
+{% if algo.name in Flex_Algo_Membership %}
+   prefix-sid algorithm {{ algo.name }} absolute {{ algo.name }}{{ '%03d' % (id) }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if lfa or Flex %}
+{% for interface in network_interfaces %}
+  interface {{ interface.name }}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+!
+mpls oam 
+  dpm
+   pps 10 
+   interval 60 

@@ -1,0 +1,30 @@
+flow exporter-map ccni
+ packet-length 1468
+ version v9
+  options sampler-table timeout 15
+  template data timeout 15
+  template options timeout 15
+ !
+ transport udp 2055
+ source MgmtEth{{ management_int }}
+ destination {{ cwdg_cloud }} vrf Mgmt-intf
+!
+flow monitor-map ccni
+ record ipv4
+ exporter ccni
+ cache entries 1000000
+ cache timeout active 12
+ cache timeout update 15
+!
+{% if ipv6 %}
+flow monitor-map ccni-ipv6
+ record ipv6
+ exporter ccni
+ cache entries 1000000
+ cache timeout active 12
+ cache timeout update 15
+{% endif %}
+!
+sampler-map ccni-sampler
+random 1 out-of 1000
+!

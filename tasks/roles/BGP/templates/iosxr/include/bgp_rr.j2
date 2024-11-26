@@ -1,0 +1,96 @@
+!
+route-policy pass-all
+  pass
+end-policy
+!
+!
+router bgp {{asn}}
+ nsr
+ bgp router-id {{loopbackPrefix}}1.{{id}}
+ bgp update-delay 1
+ bgp graceful-restart restart-time 120
+ bgp graceful-restart stalepath-time 360
+ bgp graceful-restart
+ bfd minimum-interval 6500
+ bfd multiplier 7
+ !
+ address-family ipv4 mvpn
+  nexthop trigger-delay critical 10
+ !
+ address-family vpnv4 unicast
+  nexthop trigger-delay critical 10
+  additional-paths receive
+  additional-paths send
+  retain route-target all
+ !
+ address-family vpnv6 unicast
+  nexthop trigger-delay critical 10
+  additional-paths receive
+  additional-paths send
+  retain route-target all
+ !
+ address-family ipv4 rt-filter
+ !
+ address-family l2vpn evpn
+  additional-paths receive
+  additional-paths send
+ !
+ neighbor-group RR_PEERS
+  remote-as {{asn}}
+  bfd fast-detect
+  update-source Loopback0
+  !
+  address-family vpnv4 unicast
+   route-reflector-client
+  !
+  address-family vpnv6 unicast
+   route-reflector-client
+  !
+  address-family l2vpn evpn
+   route-reflector-client
+  !
+  address-family ipv4 mvpn
+   route-reflector-client
+  !
+ neighbor-group LEAF-RRC
+  remote-as {{asn}}
+  bfd fast-detect
+  update-source Loopback0
+  !
+  address-family ipv4 mvpn
+   route-reflector-client
+  !
+  address-family vpnv4 unicast
+   route-reflector-client
+  !
+  address-family vpnv6 unicast
+   route-reflector-client
+  !
+  address-family l2vpn evpn
+   route-reflector-client
+  !
+ !
+{% for host in route_reflector_clients %}
+{% if ipv4 %}
+  neighbor {{ host.ip }}
+    use neighbor-group LEAF-RRC
+  !
+{% endif %}
+{% if ipv6 and not ipv4 %}
+  neighbor {{ host.v6 }}
+    use neighbor-group LEAF-RRC
+  !
+{% endif %}
+{% endfor %}
+{% for host in route_reflector_peers %}
+{% if ipv4 %}
+  neighbor {{ host.ip }}
+    use neighbor-group RR_PEERS
+  !
+{% endif %}
+{% if ipv6 and not ipv4 %}
+  neighbor {{ host.v6 }}
+    use neighbor-group RR_PEERS
+  !
+{% endif %}
+{% endfor %}

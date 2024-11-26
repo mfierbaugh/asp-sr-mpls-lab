@@ -1,0 +1,30 @@
+segment-routing
+ traffic-eng
+  pcc
+{% if ipv4 %}
+   source-address ipv4 {{ loopbackPrefix }}1.{{ id }}
+{% endif %}
+{% if ipv6 and not ipv4 %}
+   source-address ipv6 100:100:100::{{ id }}
+{% endif %}
+{% for pce in sr_pce %}
+{% if ipv4 %}
+   pce address ipv4 {{ pce.ip }}
+    precedence {{ pce.precedence }}
+   !
+{% endif %}
+{% if ipv6 and not ipv4 %}
+   pce address ipv6 {{ pce.v6 }}
+    precedence {{ pce.precedence }}
+   !
+{% endif %}
+{% endfor %}
+   report-all
+   redundancy pcc-centric
+   timers delegation-timeout 10
+   timers deadtimer 60
+   timers initiated state 15
+   timers initiated orphan 10
+  !
+ !
+!

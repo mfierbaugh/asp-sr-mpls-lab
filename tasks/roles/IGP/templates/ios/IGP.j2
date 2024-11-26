@@ -1,0 +1,5 @@
+{% if igp == 'isis' %}
+{% include "include/isis.j2" %}
+{% elif igp == 'ospf' %}
+{% include "include/ospf.j2" %}
+{% endif %}

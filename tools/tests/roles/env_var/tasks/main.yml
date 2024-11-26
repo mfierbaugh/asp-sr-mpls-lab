@@ -1,0 +1,4 @@
+---
+- name: "Build env_var.py"
+  template: src=env_var.j2 dest=./env_var.py
+  changed_when: False

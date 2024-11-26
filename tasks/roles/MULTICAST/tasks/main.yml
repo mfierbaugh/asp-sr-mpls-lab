@@ -1,0 +1,8 @@
+---
+- name: "Building MULTICAST Configuration"
+  template: src={{ os }}/MULTICAST.j2 dest={{ baseconfdir.path }}/09_MULTICAST.out
+  changed_when: False
+  #when: commit_changes | match('0')
+  #when: commit_changes == '0'
+  tags:
+    - multicast

@@ -1,0 +1,29 @@
+---
+- name: Diff baseline
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: Remove old diff files
+    file: path={{ playbook_dir }}/diff/ state=absent
+    register: diffdir
+    changed_when: False
+
+  - name: Remove old after files
+    file: path={{ playbook_dir }}/after/ state=absent
+    register: afterdir
+    changed_when: False
+
+  - name: Create empty diff directory
+    file: path={{ diffdir.path }} state=directory
+
+  - name: Create empty after directory
+    file: path={{ afterdir.path }} state=directory
+
+  - name: Diff baseline
+    command: easypy ./test_scripts/compare_changes_job.py -testbed_file testbed.yaml -check_all_devices_up
+    register: log
+
+  - debug:
+      msg: "For results run the following command: pyats logs view"

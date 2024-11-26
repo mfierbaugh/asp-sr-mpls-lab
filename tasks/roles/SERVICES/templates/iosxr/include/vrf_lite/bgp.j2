@@ -1,0 +1,45 @@
+!
+!
+router bgp {{ asn }}
+ neighbor-group VRF_LITE_PEERS
+  address-family ipv4 unicast
+   route-policy pass-all in
+   route-policy pass-all out
+   soft-reconfiguration inbound always
+  !
+  address-family ipv6 unicast
+   route-policy pass-all in
+   route-policy pass-all out
+   soft-reconfiguration inbound always
+  !
+ !
+{% for vrf in services.vrf_lite  %}
+ vrf {{ vrf.name }}
+   rd auto
+   address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+  !
+   address-family ipv6 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+  !
+{% for neighbor in vrf.bgp_neighbors if neighbor.enable %}
+  neighbor {{ neighbor.ipv4 }}
+{% if asn == neighbor.remote_asn %}
+   update-source loopback{{ vrf.vpn_id}}
+{% endif %}
+   remote-as {{ neighbor.remote_asn }}
+   use neighbor-group VRF_LITE_PEERS
+   address-family ipv4 unicast
+     route-policy {{ neighbor.rp4_in }} in   
+     route-policy {{ neighbor.rp4_out }} out
+ !
+    address-family ipv6 unicast
+     route-policy {{ neighbor.rp4_in }} in   
+     route-policy {{ neighbor.rp4_out }} out
+ !
+ {% endfor %}
+ !
+{% endfor %}
+!

@@ -1,0 +1,60 @@
+id: 101
+os: iosxr
+ansible_password: cisco123
+napalm_driver: iosxr_netconf
+xr_7: true
+dnx: false
+management_int: 0/RP0/CPU0/0
+max_sid_depth: 8
+asn: 65000
+bgp_rrc: false
+bgp_rr: false
+netflow: false
+cwdg_traffic: false
+xrd: false
+
+optics:
+  - {enable: false}
+
+network_interfaces:
+  - {name: FourHundredGigE0/0/0/0, descr: "ASP - CORE.102", remote_id: 102, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}
+  - {name: FourHundredGigE0/0/0/1, descr: "ASP - CORE.103", remote_id: 103, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}
+  - {name: FourHundredGigE0/0/0/2, descr: "ASP - CORE.104", remote_id: 104, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}  
+  - {name: FourHundredGigE0/0/0/3, descr: "ASP - vRR_SRPCE.51", remote_id: 51, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 9000}
+  - {name: FourHundredGigE0/0/0/4, descr: "ASP - PE.21", remote_id: 51, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 9000}
+  - {name: FourHundredGigE0/0/0/5, descr: "ASP - PE.22", remote_id: 51, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 9000}
+
+Flex_Algo_Membership: {128, 130}
+
+bfd_multipath:
+  - {enable: true, location: 0/RP0/CPU0 }
+
+bundle_members:
+  - {enable: false}
+
+breakout:
+  - {enable: False}
+
+static_routes:
+  - {enable: False}
+
+ebgp_peers:
+  - { enable: false }
+
+route_reflectors:
+  - ip: 1.1.1.51
+    v6: 50:50:50::50
+  - ip: 1.1.1.52
+    v6: 51:51:51::51
+
+sr_pce:
+  - ip: 1.1.1.51
+    v6: 50:50:50::50
+    precedence: 1
+  - ip: 1.1.1.52
+    v6: 51:51:51::51
+    precedence: 2
+
+mpls_te_tunnels:
+  - {enable: false}
+

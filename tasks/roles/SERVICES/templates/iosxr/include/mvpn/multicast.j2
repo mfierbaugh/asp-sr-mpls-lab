@@ -1,0 +1,20 @@
+multicast-routing
+ address-family ipv4
+  interface Loopback0
+   enable
+  !
+ !
+{% for vrf in services.mvpn %}
+ vrf {{ vrf.name }}
+  address-family ipv4
+   mdt source Loopback0
+   rate-per-route
+   interface all enable
+   accounting per-prefix
+   bgp auto-discovery mldp
+   !
+   mdt partitioned mldp ipv4 p2mp
+   mdt data 100
+  !
+ !
+{% endfor %}

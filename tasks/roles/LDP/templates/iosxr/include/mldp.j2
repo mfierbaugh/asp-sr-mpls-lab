@@ -1,0 +1,21 @@
+mpls ldp
+ capabilities sac
+ mldp
+  logging notifications
+  address-family ipv4
+   make-before-break delay 30
+   forwarding recursive
+   recursive-fec
+  !
+ !
+ router-id {{loopbackPrefix}}1.{{id}}
+ session protection
+ address-family ipv4
+  label
+   local
+    allocate for host-routes
+  {%for interface in network_interfaces%}
+  interface {{interface.name}}
+  !
+  {%endfor%}
+ !

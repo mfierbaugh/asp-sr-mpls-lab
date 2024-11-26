@@ -1,0 +1,25 @@
+testbed:
+  name: {{ lab_name }}
+  credentials:
+    default:
+      username: admin
+      password: cisco123
+      
+
+devices:
+{% for host in groups['all'] %}
+  {{ hostvars[host].inventory_hostname }}:
+    type: 'router'
+    os: '{{ hostvars[host].os }}'
+    alias: '{{ hostvars[host].id }}'
+    connections:
+      vty:
+        protocol: ssh
+        ip: "{{ hostvars[host].ansible_host }}"
+        ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        settings:
+          GRACEFUL_DISCONNECT_WAIT_SEC: 0
+          POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
+{% endfor %}

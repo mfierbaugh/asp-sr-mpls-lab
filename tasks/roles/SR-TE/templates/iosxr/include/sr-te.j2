@@ -1,0 +1,77 @@
+{% if igp == 'isis' %}
+{% for isis in igp_instances %}
+router isis {{ isis.name }}
+ address-family ipv4 unicast
+  mpls traffic-eng level-2-only
+  mpls traffic-eng router-id Loopback0
+{% endfor %}
+{% elif igp == 'ospf' %}
+{% for ospf in igp_instances %}
+router ospf {{ ospf.name }}
+ mpls traffic-eng router-id Loopback 0
+ area 0
+  mpls traffic-eng
+{% endfor %}
+{% endif %}
+!
+!
+ipv4 unnumbered mpls traffic-eng Loopback0
+mpls traffic-eng
+!
+segment-routing
+ traffic-eng
+{% for interface in network_interfaces %}
+  interface {{ interface.name }}
+   metric {{ interface.te_metric }}
+{% endfor %}
+  on-demand color 128
+   dynamic
+    metric
+     type igp
+    !
+   !
+   constraints
+    segments
+     sid-algorithm 128
+    !
+   !
+  !
+{% for policy in sr_policy.manual if policy is defined %}
+  policy {{policy.name}}
+   color {{policy.color}} end-point ipv4 {{policy.endpoint}}
+   candidate-paths
+    preference 100
+     dynamic
+{% if policy.pce %}
+      pcep
+      !
+{% endif %}
+      metric
+       type {{ policy.metric_type }}
+      !
+     !
+{% if policy.algo != 0 %}
+     constraints
+      segments
+       sid-algorithm {{ policy.algo }}
+      !
+     !
+{% endif %}
+    !
+   !
+  !
+{% endfor %}
+{% for policy in sr_policy.odn if policy is defined %}
+  on-demand color {{ policy.color }}
+   dynamic
+    metric
+     type {{ policy.metric_type }}
+    !
+   !
+   constraints
+    segments
+     sid-algorithm {{ policy.algo }}
+    !
+   !
+  !
+{% endfor %}

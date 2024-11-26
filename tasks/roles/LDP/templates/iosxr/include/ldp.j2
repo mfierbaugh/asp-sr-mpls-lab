@@ -1,0 +1,99 @@
+mpls ldp
+ log
+  hello-adjacency
+  neighbor
+  nsr
+  graceful-restart
+ !
+ nsr
+ graceful-restart
+ igp sync delay on-session-up 5
+ !
+ router-id {{loopbackPrefix}}1.{{id}}
+ session protection
+ address-family ipv4
+  label
+   local
+    advertise
+     explicit-null
+    !
+   !
+  !
+ !
+ {% for interface in network_interfaces %}
+ interface {{interface.name}}
+ !
+{% endfor %}
+!
+{% if lfa and igp == 'isis' %}
+{% for isis in igp_instances %}
+router isis {{ isis.name }}
+{% for interface in network_interfaces %}
+ interface {{ interface.name }}
+{% if ipv4 %}
+  address-family ipv4 unicast
+   fast-reroute per-prefix
+   fast-reroute per-prefix remote-lfa tunnel mpls-ldp level 2
+   fast-reroute per-prefix tiebreaker node-protecting index 100
+{% endif %}
+{% if ipv6 %}
+  address-family ipv6 unicast
+   fast-reroute per-prefix
+   fast-reroute per-prefix remote-lfa tunnel mpls-ldp level 2
+   fast-reroute per-prefix tiebreaker node-protecting index 100
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% elif lfa and igp == 'ospf' %}
+{% for ospf in igp_instances %}
+{% if ipv4 %}
+router ospf {{ ospf.name }}
+ area 0
+{% for interface in network_interfaces %}
+ interface {{ interface.name }}
+  fast-reroute per-prefix
+  fast-reroute per-prefix remote-lfa tunnel mpls-ldp
+  fast-reroute per-prefix tiebreaker node-protecting index 100
+{% endfor %}
+{% endif %}
+{% if ipv6 %}
+router ospfv3 {{ ospf.name }}
+ area 0
+{% for interface in network_interfaces %}
+ interface {{ interface.name }}
+  fast-reroute per-prefix
+  fast-reroute per-prefix remote-lfa tunnel mpls-ldp
+  fast-reroute per-prefix tiebreaker node-protecting index 100
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if ldp_over_mplste %}
+mpls ldp
+ log
+  hello-adjacency
+  neighbor
+  nsr
+  graceful-restart
+ !
+ nsr
+ graceful-restart
+ igp sync delay on-session-up 5
+ router-id {{loopbackPrefix}}0.{{id}}
+ address-family ipv4
+  label
+   local
+    advertise
+     explicit-null
+    !
+   !
+  !
+ !
+ {% for tunnel in mpls_te_tunnels if tunnel.enable %}
+ interface tunnel-te{{tunnel.id}}
+ !
+{% endfor %}
+!
+exit
+{% endif %}

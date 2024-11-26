@@ -1,0 +1,63 @@
+!
+{% for mvpn in services.l3vpn if mvpn.mvpn is defined %} 
+{% if mvpn.mvpn['mode'] == 'dynamic_tree_sid' %}
+route-policy sr-p2mp-core-tree
+ set core-tree sr-p2mp
+end-policy
+!
+router igmp
+ vrf {{ mvpn.name }}
+{% for interface in mvpn.interfaces %}
+  interface {{ interface.name }}
+  version 3
+{% endfor %}
+!
+multicast-routing
+ address-family ipv4
+  interface Loopback0
+   enable
+  !
+  mdt source Loopback0
+  interface all enable
+ !
+ address-family ipv6
+  interface all enable
+ !
+ vrf {{ mvpn.name }}
+  address-family ipv4
+   mdt source Loopback0
+   interface all enable
+   bgp auto-discovery segment-routing
+   !
+   mdt default segment-routing mpls color {{ mvpn.mvpn['odn_color'] }}
+   mdt data segment-routing mpls 1 color {{ mvpn.mvpn['odn_color'] }} threshold 0
+  !
+ ! 
+router pim
+ address-family ipv4
+  interface Loopback0
+   enable
+  !
+ !
+ vrf {{ mvpn.name }}
+  address-family ipv4
+   rpf topology route-policy sr-p2mp-core-tree
+   mdt c-multicast-routing bgp
+   !
+   multipath
+   ssm range ssm
+  !
+ !
+ !
+segment-routing
+ traffic-eng
+  on-demand color {{ mvpn.mvpn['odn_color'] }}
+   dynamic
+    metric
+     type igp
+   !
+  !
+ !
+!
+{% endif %}
+{% endfor %}

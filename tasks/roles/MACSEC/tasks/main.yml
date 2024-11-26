@@ -1,0 +1,4 @@
+---
+- name: "Building MACSEC Configuration"
+  template: src={{ os }}/macsec.j2 dest={{ baseconfdir.path }}/07_macsec.out
+  changed_when: False

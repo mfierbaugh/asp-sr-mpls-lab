@@ -1,0 +1,9 @@
+{% if vrf_lite %}
+{% include "include/multicast.j2" %}
+!
+{% include "include/msdp.j2" %}
+!
+{% include "include/pim.j2" %}
+!
+{% include "include/igmp.j2" %}
+{% endif %}

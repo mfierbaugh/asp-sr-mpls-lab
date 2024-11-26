@@ -1,0 +1,12 @@
+!
+interface {{ management_int }}
+ vrf Mgmt-intf
+ ip address {{ ansible_host }}{{ management_prefix }}
+!
+ip routing
+ip routing vrf Mgmt-intf
+!
+ipv6 unicast-routing
+!
+ip route vrf Mgmt-intf 0.0.0.0/0 {{ management_gw }}
+!

@@ -1,0 +1,12 @@
+{% for bundle in services.bundle_members %}
+!
+interface {{ bundle.member }}
+ description {{ bundle.descr }}
+ bundle id {{ bundle.id }} mode active
+ no shutdown
+ carrier-delay up 0 down 0
+!
+interface Bundle-Ether{{ bundle.id }}
+ lacp system mac {{ bundle.system_mac }}
+!
+{% endfor %}

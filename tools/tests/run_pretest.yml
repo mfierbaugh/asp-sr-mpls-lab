@@ -1,0 +1,31 @@
+---
+- name: Build test configuration
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  pre_tasks:
+    - name: Remove old testbed
+      file: path={{ playbook_dir }}/compiled_tests/ state=absent
+      register: testconfdir
+      changed_when: False
+
+    - name: Remove old baselines
+      file: path={{ playbook_dir }}/baseline/ state=absent
+      register: baselinedir
+      changed_when: False
+
+    - name: Create empty compiled_tests
+      file: path={{ testconfdir.path }} state=directory
+
+    - name: Create empty baseline
+      file: path={{ baselinedir.path }} state=directory
+
+    - name: Add Header
+      template: src=roles/header/templates/header.j2 dest={{ testconfdir.path }}/00_header.out
+      changed_when: False
+
+- import_playbook : build_testbed.yml
+- import_playbook : build_env_var.yml
+- import_playbook : assemble_testbed.yml
+- import_playbook : build_baseline.yml

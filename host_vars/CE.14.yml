@@ -1,0 +1,77 @@
+id: 14
+os: iosxr
+ansible_password: cisco123
+napalm_driver: iosxr_netconf
+xr_7: true
+dnx: false
+management_int: 0/RP0/CPU0/0
+max_sid_depth: 6
+asn: 65200
+bgp_rrc: false
+bgp_rr: false
+netflow: false
+xrd: true
+
+optics:
+  - {enable: false}
+
+network_interfaces:
+  - {name: GigabitEthernet0/0/0/2, descr: "ASP - CE.13", remote_id: 13, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}
+
+Flex_Algo_Membership: {128, 129, 130}
+
+Flex_Affinity:
+   - {interface: Bundle-Ether1000, color: GREEN }
+
+bfd_multipath:
+  - {enable: true, location: 0/0/CPU0 }
+
+bundle_members:
+  - {enable: false}
+
+breakout:
+  - {enable: False}
+
+static_routes:
+  - {enable: False}
+
+ebgp_peers:
+  - { enable: false }
+  # - { enable: true, ipv4: 10.61.100.2, remote_asn: 65166.1001, rp4_in: pass-all, rp4_out: pass-all }
+
+ibgp_peers:
+  - { enable: false }
+  # - { enable: true, ipv4: 1.1.1.22 }
+  # - { enable: true, ipv4: 1.1.1.23 }
+  # - { enable: true, ipv4: 1.1.1.24 }
+
+
+services:
+  l3_interfaces:
+    - {name: Loopback128, descr: "ASP TEST BLUE VRF INTERFACE", vlan: 0, ipv4: 10.14.128.1/32, ipv6: '2000::10:14:128:1/128'}
+    - {name: Loopback129, descr: "ASP TEST RED VRF INTERFACE", vlan: 0, ipv4: 10.14.129.1/32, ipv6: '2000::10:14:129:1/128'}
+    - {name: GigabitEthernet0/0/0/0, descr: "ASP - PE.23 VRF BLUE", vlan: 101, ipv4: 10.14.23.0/31, ipv6: '2001::10:14:23:0/127'}
+    - {name: GigabitEthernet0/0/0/0, descr: "ASP - PE.23 VRF RED", vlan: 102, ipv4: 10.14.23.0/31, ipv6: '2001::10:14:23:0/127'}
+    - {name: GigabitEthernet0/0/0/1, descr: "ASP - PE.24 VRF BLUE", vlan: 101, ipv4: 10.14.24.0/31, ipv6: '2001::10:14:24:0/127'}
+    - {name: GigabitEthernet0/0/0/1, descr: "ASP - PE.24 VRF RED", vlan: 102, ipv4: 10.14.24.0/31, ipv6: '2001::10:14:24:0/127'}
+          
+  vrf_lite:
+    - name: BLUE
+      vpn_id: 128
+      interfaces:
+        - { name: GigabitEthernet0/0/0/0.101}
+        - { name: GigabitEthernet0/0/0/1.101}
+        - { name: Loopback128 }
+      bgp_neighbors:
+        - { enable: true, ipv4: 10.14.23.1, remote_asn: 65000, rp4_in: pass-all, rp4_out: pass-all }
+        - { enable: true, ipv4: 10.14.24.1, remote_asn: 65000, rp4_in: pass-all, rp4_out: pass-all }
+
+    - name: RED
+      vpn_id: 129
+      interfaces:
+        - { name: GigabitEthernet0/0/0/0.101}
+        - { name: GigabitEthernet0/0/0/1.101}
+        - { name: Loopback129 }
+      bgp_neighbors:
+        - { enable: true, ipv4: 10.14.23.1, remote_asn: 65000, rp4_in: pass-all, rp4_out: pass-all }
+        - { enable: true, ipv4: 10.14.24.1, remote_asn: 65000, rp4_in: pass-all, rp4_out: pass-all }

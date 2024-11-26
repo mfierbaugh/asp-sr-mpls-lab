@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# switch comment to line below (commit_changes=1) for dry-run
+# ansible-playbook -i hosts.yml lab_master_playbook.yml -e "commit_changes=0"
+ansible-playbook -i hosts.yml lab_master_playbook.yml -e "commit_changes=1"
+

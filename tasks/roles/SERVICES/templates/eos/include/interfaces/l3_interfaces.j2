@@ -1,0 +1,21 @@
+!
+{% for interface in services.l3_interfaces %}
+{% if interface.vlan != 0 %}
+interface {{ interface.name }}
+  no shutdown
+!
+interface {{ interface.name }}.{{ interface.vlan }}
+  description *** {{ interface.descr }} ***
+  encapsulation dot1q {{ interface.vlan }}
+  ip address {{ interface.ipv4 }}
+  load-interval 30
+  no shutdown
+!
+{% else %}
+interface {{ interface.name }}
+  description *** {{ interface.descr }} ***
+  ip address {{ interface.ipv4 }}
+  no shutdown
+!
+{% endif %}
+{% endfor %}

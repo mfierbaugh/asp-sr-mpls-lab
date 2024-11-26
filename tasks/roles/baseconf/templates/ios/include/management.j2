@@ -1,0 +1,5 @@
+interface GigabitEthernet1
+ vrf forwarding Mgmt-intf
+ ip address {{ ansible_host }} {{ management_prefix }}
+
+ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 {{ management_gw }}

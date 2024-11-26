@@ -1,0 +1,50 @@
+{% if Flex %}
+{% for algo in Flex_Algos %}
+extcommunity-set opaque color{{ algo.name }}
+  {{ algo.name }}
+end-set
+!
+route-policy ALGO-{{ algo.descr }}
+  set extcommunity color color{{ algo.name }}
+  pass
+end-policy
+!
+{% endfor %}
+{% endif %}
+{% for vrf in services.l3vpn %}
+vrf {{ vrf.name }}
+ address-family ipv4 unicast
+  import route-target
+    {{ asn }}:{{ vrf.vpn_id }}
+  !
+{% if Flex %}
+{% if vrf.algo_map is defined %}
+  export route-policy {{ vrf.algo_map }}
+{% endif %}
+{% endif %}
+  export route-target
+    {{ asn }}:{{ vrf.vpn_id }}
+  !
+ !
+ address-family ipv6 unicast
+  import route-target
+    {{ asn }}:{{ vrf.vpn_id }}
+  !
+{% if Flex %}
+{% if vrf.algo_map is defined %}
+  export route-policy {{ vrf.algo_map }}
+{% endif %}
+{% endif %}
+  export route-target
+    {{ asn }}:{{ vrf.vpn_id }}
+  !
+ !
+!
+{% for interface in vrf.interfaces %}
+interface {{ interface.name }}
+  vrf {{ vrf.name }}
+  !
+  exit
+{% endfor %}
+!
+{% endfor %}

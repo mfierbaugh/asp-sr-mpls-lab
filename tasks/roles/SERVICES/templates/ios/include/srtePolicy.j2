@@ -1,0 +1,9 @@
+{% for policy in services.srte %}
+interface Tunnel{{policy.color}}
+ ip unnumbered Loopback0
+ tunnel mode mpls traffic-eng
+ tunnel destination {{policy.endpoint}}
+ tunnel mpls traffic-eng autoroute announce
+ tunnel mpls traffic-eng path-option 1 {{policy.type}} pce segment-routing
+end
+{% endfor %}

@@ -1,0 +1,7 @@
+multicast-routing 
+ address-family ipv4
+{% for interface in multicast.interfaces %}
+  interface {{ interface.name }}
+   enable
+  !
+{% endfor %}

@@ -1,0 +1,25 @@
+{% for bvi in services.bvi %}
+mld snooping profile default-mld-profile
+igmp snooping profile default-igmp-profile
+!
+interface BVI{{ bvi.id }}
+ description {{ bvi.descr }}
+ ip address {{ bvi.ipv4 }}
+ no shutdown
+ !
+{% endfor %}
+!
+l2vpn
+{% for bvi in services.bvi %}
+ bridge group BVI{{ bvi.id }}
+  bridge-domain BVI{{ bvi.id }}
+   description {{ bvi.descr }}
+   mld snooping profile default-mld-profile
+   igmp snooping profile default-igmp-profile
+{% for interface in bvi.l2_interfaces %}
+   interface {{ interface.name }}
+{% endfor %}
+   !
+   routed interface BVI {{ bvi.id }}
+   !
+{% endfor %}

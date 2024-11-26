@@ -1,0 +1,85 @@
+hostname {{ inventory_hostname }}
+clock timezone EST America/New_York
+logging trap informational
+{% if not xrd %}
+logging events level informational
+{% endif %}
+logging facility local7
+logging {{ cwdg }} vrf Mgmt-intf port {{ cwdg_syslog_port }}
+logging {{ telemetry_server }} vrf Mgmt-intf port 6514
+{% if splunk_enable %}
+logging {{ splunk_server }} vrf Mgmt-intf port {{ splunk_syslog_port }}
+{% endif %}
+logging hostnameprefix {{ inventory_hostname }}
+logging source-interface MgmtEth{{ management_int }}
+logging console debugging
+logging monitor debugging
+logging format rfc5424
+service timestamps log datetime msec show-timezone year
+service timestamps debug datetime msec
+{% if not xr_7 %}
+service unsupported-transceiver
+{% endif %}
+{% if dnx %}
+hw-module profile segment-routing srv6 mode micro-segment format f3216
+{% endif %}
+domain name dcloud.cisco.com
+domain lookup disable
+!
+vrf Mgmt-intf
+ address-family ipv4 unicast
+ !
+ address-family ipv6 unicast
+ !
+!
+!
+domain vrf Mgmt-intf name-server {{ primary_dns_server }}
+domain vrf Mgmt-intf lookup source-interface MgmtEth{{ management_int }}
+!
+call-home
+ vrf Mgmt-intf
+ service active
+ contact smart-licensing
+ source-interface MgmtEth0/RP0/CPU0/0
+ profile CiscoTAC-1
+  active
+  destination transport-method http
+ !
+!
+{% if not xrd %}
+ntp
+ server vrf Mgmt-intf {{ primary_ntp_server }}
+ source vrf Mgmt-intf MgmtEth{{ management_int }}
+ update-calendar
+!
+{% endif %}
+!
+ssh server v2
+ssh server vrf Mgmt-intf
+ssh timeout 120
+ssh server netconf port 830
+ssh server netconf vrf Mgmt-intf
+ssh server logging
+ssh server session-limit 100
+ssh client vrf Mgmt-intf
+!
+grpc
+ vrf Mgmt-intf
+ port 57400
+ no-tls
+ address-family ipv4
+!
+netconf-yang agent
+ ssh
+!
+lldp
+!
+!
+line default
+ transport input ssh
+ exec-timeout 0 0
+ width 107
+ length 37
+ absolute-timeout 0
+!
+vty-pool default 0 99 line-template default

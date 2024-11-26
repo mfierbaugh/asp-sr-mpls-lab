@@ -1,0 +1,9 @@
+{% for service in services.evpn_vpws_fxc %}
+l2vpn
+ flexible-xconnect-service {{ service.type }} {{ service.name}}
+{% for interface in service.interfaces %}
+  interface {{ interface.name }}
+{% endfor %}
+  neighbor evpn evi {{ service.evi }} target {{ service.target }}
+ !
+{% endfor %}

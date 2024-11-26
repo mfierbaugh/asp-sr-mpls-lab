@@ -1,0 +1,66 @@
+{% for interface in network_interfaces %}
+interface {{ interface.name }}
+  description *** To {{ interface.descr }} ***
+  mtu {{interface.mtu}}
+{% if interface.vlan != 0 %}
+  encapsulation dot1q {{ interface.vlan }}
+{% endif %}
+{% if ('Bundle-Ether' not in interface.name) and (interface.vlan == 0) %}
+  carrier-delay up 0 down 0
+{% endif %}
+{% if ipv4 %}
+{% if unnumbered_interfaces and interface.unnumbered %}
+  ipv4 point-to-point
+  ipv4 unnumbered Loopback0  
+{% else %}
+{% if auto_ip %}
+{# Logic for auto_ip #}
+{% if id < interface.remote_id %}
+ipv4 address 10.{{ id }}.{{ interface.remote_id }}.0/31
+{% else %}
+ipv4 address 10.{{ interface.remote_id }}.{{ id }}.1/31
+{% endif %}
+{# end auto_ip logic #}
+{% else %}
+  ipv4 address {{ interface.ipv4 }} {{ interface.mask }}
+{% endif %}
+{% endif %}
+{% endif %}
+{% if ipv6 %}
+{% if unnumbered_interfaces and interface.unnumbered %}
+  ipv6 enable
+{% else %}
+{% if auto_ip %}
+{# Logic for auto_ip #}
+{% if id < interface.remote_id %}
+  ipv6 address {{ ipv6_prefix }}::10:{{ id }}:{{ interface.remote_id }}:0/127
+{% else %}
+  ipv6 address {{ ipv6_prefix }}::10:{{ interface.remote_id }}:{{ id }}:1/127
+{% endif %}
+{# end auto_ip logic #}
+{% else %}
+  ipv6 address {{ ipv6_prefix }}::{{ interface.ipv6 }}
+{% endif %}
+{% endif %}
+{% endif %}
+{% if netflow %}
+  flow ipv4 monitor ccni sampler ccni-sampler ingress
+{% if ipv6 %}
+  flow ipv6 monitor ccni-ipv6 sampler ccni-sampler ingress
+{% endif %}
+{% endif %}
+  load-interval 30
+  no shutdown
+!
+{% endfor %}
+!
+{% for bundle in bundle_members if bundle.enable %}
+!
+interface {{ bundle.member }}
+ description {{ bundle.descr }}
+ bundle id {{ bundle.id }} mode on
+ no shutdown
+ carrier-delay up 0 down 0
+ load-interval 30
+!
+{% endfor %}

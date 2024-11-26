@@ -1,0 +1,24 @@
+---
+- name: Building Testbed Config File
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  pre_tasks:
+
+    - name: Remove old testbed file
+      file: path=../tools/testcase_collector/testbed_{{ lab_name }}.yml state=absent
+      changed_when: False
+      #when: commit_changes | match('0')
+      #when: commit_changes == '0'
+
+      tags:
+        - base
+
+    - name: "Building testbed file"
+      template: src=../tools/templates/template_testbed.j2 dest=../tools/testcase_collector/testbed_{{ lab_name }}.yml
+      changed_when: False
+      #when: commit_changes | match('0')
+      #when: commit_changes == '0'
+      tags:
+        - fabric

@@ -1,0 +1,48 @@
+ipv4 unnumbered mpls traffic-eng Loopback0
+
+{% if igp == 'isis' %}
+{% for isis in igp_instances %}
+router isis {{ isis.name }}
+ address-family ipv4 unicast
+  mpls traffic-eng level-2-only
+  mpls traffic-eng router-id Loopback0
+!
+{% endfor %}
+{% elif igp == 'ospf' %}
+{% for ospf in igp_instances %}
+router ospf {{ ospf.name }}
+ mpls traffic-eng router-id Loopback 0
+ area 0
+  mpls traffic-eng
+{% endfor %}
+{% endif %}
+
+rsvp
+{% for interface in network_interfaces %}
+ interface {{interface.name}}
+ !
+{% endfor %}
+!
+mpls traffic-eng
+{% for interface in network_interfaces %}
+ interface {{interface.name}}
+  auto-tunnel backup
+ !
+{% endfor %}
+ !
+ auto-tunnel backup
+  tunnel-id min 5000 max 5999
+ reoptimize 60
+!
+ipv4 unnumbered mpls traffic-eng Loopback0
+{% for tunnel in mpls_te_tunnels if tunnel.enable %}
+interface tunnel-te{{ tunnel.id }}
+  ipv4 unnumbered Loopback0
+  destination {{ tunnel.destination }}
+  !
+  autoroute announce
+  !
+  fast-reroute
+  path-option 10 dynamic
+ !
+{% endfor %}

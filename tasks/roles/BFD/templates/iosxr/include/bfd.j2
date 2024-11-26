@@ -1,0 +1,6 @@
+!
+bfd
+{% for multipath in bfd_multipath if multipath.enable %}
+ multipath include location {{ multipath.location }}
+{% endfor %}
+!

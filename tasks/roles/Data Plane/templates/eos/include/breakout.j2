@@ -1,0 +1,4 @@
+!
+{% for breakout in breakout if breakout.enable %}
+hw-module location {{ breakout.location }} bay {{ breakout.bay }} port {{ breakout.port }} breakout {{ breakout.mode }}
+{% endfor %}

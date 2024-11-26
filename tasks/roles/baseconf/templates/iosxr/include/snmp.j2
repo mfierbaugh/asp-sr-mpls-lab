@@ -1,0 +1,25 @@
+!
+snmp-server vrf Mgmt-intf host {{ epnm_server }} traps version 2c cisco123
+snmp-server group group1 v2c
+snmp-server user admin group1 v2c
+snmp-server vrf Mgmt-intf host {{ cwdg }} traps version 2c cisco123 udp-port {{ cwdg_snmp_trap_port }}
+snmp-server community cisco123 RW
+snmp-server ifindex persist
+snmp-server packetsize 4096
+snmp-server trap link ietf
+snmp-server traps bfd
+snmp-server traps copy-complete
+snmp-server traps snmp linkup
+snmp-server traps snmp linkdown
+snmp-server traps snmp coldstart
+snmp-server traps snmp warmstart
+snmp-server traps snmp authentication
+snmp-server traps config
+snmp-server traps entity
+snmp-server traps selective-vrf-download role-change
+snmp-server traps syslog
+snmp-server traps system
+snmp-server traps addrpool low
+snmp-server traps addrpool high
+snmp-server traps cisco-entity-ext
+!

@@ -1,0 +1,10 @@
+---
+- name: Assemble testbed
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: Assemble testbed
+    assemble: src={{ playbook_dir }}/compiled_tests/ dest=./testbed.yaml
+    changed_when: False

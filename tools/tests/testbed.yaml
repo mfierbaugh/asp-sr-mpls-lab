@@ -1,0 +1,301 @@
+devices:
+    RBB.8201.100:
+        type: 'router'
+        os: 'iosxr'
+        alias: '100'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.100"
+    RBB.8201.101:
+        type: 'router'
+        os: 'iosxr'
+        alias: '101'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.101"
+    RBB.8201.102:
+        type: 'router'
+        os: 'iosxr'
+        alias: '102'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.102"
+    RBB.8201.103:
+        type: 'router'
+        os: 'iosxr'
+        alias: '103'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.103"
+    RBB.NCS540.10:
+        type: 'router'
+        os: 'iosxr'
+        alias: '10'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.10"
+    RBB.NCS540.11:
+        type: 'router'
+        os: 'iosxr'
+        alias: '11'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.11"
+    RBB.NCS540.12:
+        type: 'router'
+        os: 'iosxr'
+        alias: '12'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.12"
+    RBB.NCS540.13:
+        type: 'router'
+        os: 'iosxr'
+        alias: '13'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.13"
+    RBB.NCS55A1.14:
+        type: 'router'
+        os: 'iosxr'
+        alias: '14'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.14"
+    RBB.NCS55A1.15:
+        type: 'router'
+        os: 'iosxr'
+        alias: '15'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.15"
+    RBB.NCS55A1.16:
+        type: 'router'
+        os: 'iosxr'
+        alias: '16'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.16"
+    RBB.ASR9903.20:
+        type: 'router'
+        os: 'iosxr'
+        alias: '20'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.20"
+    RBB.ASR9903.21:
+        type: 'router'
+        os: 'iosxr'
+        alias: '21'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.21"
+    RBB.NCS5504.22:
+        type: 'router'
+        os: 'iosxr'
+        alias: '22'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.22"
+    RBB.NCS5504.23:
+        type: 'router'
+        os: 'iosxr'
+        alias: '23'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.23"
+    RBB.NCS5504.24:
+        type: 'router'
+        os: 'iosxr'
+        alias: '24'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.24"
+    RBB.NCS55A2.25:
+        type: 'router'
+        os: 'iosxr'
+        alias: '25'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.25"
+    RBB.NCS55A2.26:
+        type: 'router'
+        os: 'iosxr'
+        alias: '26'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.26"
+    RBB.vRR-SR-PCE.50:
+        type: 'router'
+        os: 'iosxr'
+        alias: '50'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.50"
+    RBB.vRR-SR-PCE.51:
+        type: 'router'
+        os: 'iosxr'
+        alias: '51'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.51"
+    RBB.vRR-SR-PCE.52:
+        type: 'router'
+        os: 'iosxr'
+        alias: '52'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.52"
+    RBB.vRR-SR-PCE.53:
+        type: 'router'
+        os: 'iosxr'
+        alias: '53'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.53"
+    RBB.vBNG.55:
+        type: 'router'
+        os: 'iosxr'
+        alias: '55'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.55"
+    RBB.cnBNG-UP.60:
+        type: 'router'
+        os: 'iosxr'
+        alias: '60'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.60"
+    RBB.cnBNG-UP.61:
+        type: 'router'
+        os: 'iosxr'
+        alias: '61'
+        credentials:
+            default:
+                username: admin
+                password: cisco123
+        connections:
+            cli:
+                protocol: ssh
+                ip: "198.18.200.61"

@@ -1,0 +1,20 @@
+route-policy mldp-partitioned-p2mp
+  set core-tree mldp-partitioned-p2mp
+end-policy
+!
+router pim
+{%for vrf in services.mvpn%}
+ vrf {{ vrf.name }}
+  address-family ipv4
+   rp-address {{ rp_address }}
+   rpf topology route-policy mldp-partitioned-p2mp
+   mdt c-multicast-routing bgp
+   !
+{%if vrf.interfaces.pim%}
+{%for interface in vrf.interfaces.pim%}
+   interface {{ interface.name }}
+    enable
+   !
+{%endfor%}
+{%endif%}
+{%endfor%}

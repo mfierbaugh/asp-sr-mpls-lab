@@ -1,0 +1,100 @@
+prefix-set SUBSCRIBER
+  192.168.0.0/16 ge 32
+end-set
+
+route-policy CONNECTED
+  if destination in SUBSCRIBER then
+    drop
+  else
+    pass
+  endif
+end-policy
+
+{% for isis in igp_instances %}
+router isis {{ isis.name }}
+{% if bgp_rr %}
+ set-overload-bit level 2
+{% else %}
+ set-overload-bit on-startup 300
+{% endif %}
+ is-type level-2-only
+ net 49.0011.0001.0000.{{ '%04d' % (id) }}.00
+ nsr
+ nsf ietf
+ log adjacency changes
+ lsp-gen-interval maximum-wait 10000 initial-wait 20 secondary-wait 200 level 2
+ lsp-refresh-interval 65000
+ max-lsp-lifetime 65535
+{% if Auth %}
+ lsp-password keychain IGP-KEY level 2
+{% endif %}
+{% if ipv4 and isis_afi is not defined or ipv4 and isis_afi == 'ipv4'%}
+ address-family ipv4 unicast
+  redistribute connected route-policy CONNECTED 
+  metric-style wide
+  metric 100 level 2
+  ispf level 2
+  spf-interval maximum-wait 2000 initial-wait 50 secondary-wait 200
+  router-id Loopback0
+ !
+{% endif %}
+{% if ipv6 and isis_afi is not defined or ipv6 and isis_afi == 'ipv6'%}
+ address-family ipv6 unicast
+  metric-style wide
+  ispf level 2
+  spf-interval maximum-wait 2000 initial-wait 50 secondary-wait 200
+{% endif %}
+ !
+ interface Loopback0
+  passive
+{% if ipv4 and isis_afi is not defined or ipv4 and isis_afi == 'ipv4'%}
+  address-family ipv4 unicast
+{% endif %}
+{% if ipv6 %}
+  address-family ipv6 unicast
+{% endif %}
+ !
+{% for interface in network_interfaces if interface.igp_inst == isis.name %}
+ interface {{ interface.name }}
+  circuit-type level-2-only
+{% if bfd %}
+  bfd minimum-interval 20
+  bfd multiplier 3
+  bfd fast-detect ipv4
+{% endif %}
+  point-to-point
+{% if Auth %}
+  hello-password keychain IGP-KEY
+{% endif %}
+ !
+{% if ipv4 and isis_afi is not defined or ipv4 and isis_afi == 'ipv4'%}
+  address-family ipv4 unicast
+   metric {{ interface.igp_metric }} level 2
+{%if lfa and mpls_ldp and not sr%}
+   fast-reroute per-prefix
+   fast-reroute per-prefix remote-lfa tunnel mpls-ldp level 2
+   fast-reroute per-prefix tiebreaker node-protecting index 100
+{%elif lfa and sr%}
+   fast-reroute per-prefix
+   fast-reroute per-prefix ti-lfa level 2
+   fast-reroute per-prefix remote-lfa tunnel mpls-ldp level 2
+   fast-reroute per-prefix tiebreaker node-protecting index 100
+{%endif%}
+{% endif %}
+{% if ipv6 and isis_afi is not defined or ipv6 and isis_afi == 'ipv6'%}
+  !
+  address-family ipv6 unicast
+   metric {{ interface.igp_metric }} level 2
+{%if lfa and mpls_ldp and not srv6 %}
+   fast-reroute per-prefix
+   fast-reroute per-prefix remote-lfa tunnel mpls-ldp level 2
+   fast-reroute per-prefix tiebreaker node-protecting index 100
+{%elif lfa and srv6%}
+   fast-reroute per-prefix
+   fast-reroute per-prefix ti-lfa level 2
+   fast-reroute per-prefix tiebreaker node-protecting index 100
+{% endif %}
+{% endif %}
+ !
+{% endfor %}
+{% endfor %}

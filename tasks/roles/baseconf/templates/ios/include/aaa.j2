@@ -1,0 +1,5 @@
+{% for user in users -%}
+{% if user.name != 'admin' %}
+username {{ user.name }} privilege 15 secret {{user.secret}}
+{% endif %}
+{% endfor %}

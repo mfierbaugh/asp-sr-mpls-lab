@@ -1,0 +1,58 @@
+mpls label range dynamic 200000 131072
+mpls label range isis-sr {{xr_srgb_start}} {{xr_srgb_end - xr_srgb_start}}
+!
+mpls ip
+!
+{% if Flex %}
+router traffic-engineering
+   flex-algo
+{% for algo in Flex_Algos %}
+{% if algo.name in Flex_Algo_Membership %}
+      flex-algo {{ algo.name }} {{ algo.descr }}
+         color {{ algo.name }}
+{% if algo.metric is defined %}
+{% if algo.metric == "delay" %}
+         metric min-delay
+{% endif %}
+{% if algo.metric == "te" %}
+         metric te-metric
+{% endif %}
+{% endif %}
+      !
+{% endif %}
+{% endfor %}
+{% endif %}
+!
+{% for isis in igp_instances %}
+router isis {{ isis.name }}
+   segment-routing mpls
+      no shutdown
+{% if Flex %}
+{% for algo in Flex_Algos %}
+{% if algo.name in Flex_Algo_Membership %}
+      flex-algo {{ algo.descr }} level-2 advertised
+{% endif %}
+{% endfor %}
+{% endif %}
+   !
+   traffic-engineering
+      no shutdown
+      is-type level-2
+!
+{% endfor %}
+interface Loopback0
+   node-segment ipv4 index {{id}}
+{% if Flex %}
+{% for algo in Flex_Algos %}
+{% if algo.name in Flex_Algo_Membership %}
+    node-segment ipv4 label {{ algo.name }}{{ '%03d' % (id) }} flex-algo {{ algo.descr }}
+{% endif %}
+{% endfor %}
+{% endif %}
+!
+{% if Flex %}
+{% for interface in network_interfaces %}
+interface {{ interface.name }}
+    traffic-engineering min-delay static 3 microseconds
+{% endfor %}
+{% endif %}

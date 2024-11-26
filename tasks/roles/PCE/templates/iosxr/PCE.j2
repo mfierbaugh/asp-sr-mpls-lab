@@ -1,0 +1,5 @@
+{% if inventory_hostname in groups['PCE'] %}
+{% include "include/pce.j2" %}
+{% else %}
+{% include "include/pcc.j2" %}
+{% endif %}

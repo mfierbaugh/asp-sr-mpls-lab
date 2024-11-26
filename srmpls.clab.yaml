@@ -1,4 +1,4 @@
-name: asp_lab
+name: asp_sr_mpls_lab
 
 mgmt:
   network: mgmt_intf

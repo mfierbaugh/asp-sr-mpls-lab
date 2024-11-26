@@ -83,8 +83,8 @@ services:
   l3_interfaces:
 #  - {name: TenGigE0/0/0/0, descr: "Internet Traffic interface", vlan: 1111, ipv4: 11.11.11.1/24, ipv6: '11:11:11:0/127', mtu: 9192}
     # - {name: Loopback10, descr: "ASP VIDEO ANYCAST RP INTERFACE", vlan: 0, ipv4: 10.200.200.1/32, ipv6: '2000::10:200:200:1/128'}
-    - {name: Loopback128, descr: "ASP TEST BLUE VRF INTERFACE", vlan: 0, ipv4: 10.62.128.1/32, ipv6: '2000::10:62:128:1/128'}
-    - {name: Loopback129, descr: "ASP TEST RED VRF INTERFACE", vlan: 0, ipv4: 10.62.129.1/32, ipv6: '2000::10:62:129:1/128'}
+    - {name: Loopback128, descr: "ASP TEST BLUE VRF INTERFACE", vlan: 0, ipv4: 10.22.128.1/32, ipv6: '2000::10:22:128:1/128'}
+    - {name: Loopback129, descr: "ASP TEST RED VRF INTERFACE", vlan: 0, ipv4: 10.22.129.1/32, ipv6: '2000::10:22:129:1/128'}
     - {name: GigabitEthernet0/0/0/3, descr: "ASP - CE.11 VRF BLUE", vlan: 101, ipv4: 10.11.22.1/31, ipv6: '2001::10:11:22:1/127'}
     - {name: GigabitEthernet0/0/0/3, descr: "ASP - CE.11 VRF RED", vlan: 102, ipv4: 10.11.22.1/31, ipv6: '2001::10:11:22:1/127'}
     - {name: GigabitEthernet0/0/0/4, descr: "ASP - CE.12 VRF BLUE", vlan: 101, ipv4: 10.12.22.1/31, ipv6: '2001::10:12:22:1/127'}

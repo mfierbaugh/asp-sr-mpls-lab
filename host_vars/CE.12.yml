@@ -68,6 +68,7 @@ services:
       bgp_neighbors:
         - { enable: true, ipv4: 10.12.21.1, remote_asn: 65000, rp4_in: pass-all, rp4_out: pass-all }
         - { enable: true, ipv4: 10.12.22.1, remote_asn: 65000, rp4_in: pass-all, rp4_out: pass-all }
+        - { enable: true, ipv4: 10.11.128.1, remote_asn: 65100, rp4_in: pass-all, rp4_out: pass-all }
 
     - name: RED
       vpn_id: 129
@@ -79,4 +80,5 @@ services:
       bgp_neighbors:
         - { enable: true, ipv4: 10.12.21.1, remote_asn: 65000, rp4_in: pass-all, rp4_out: pass-all }
         - { enable: true, ipv4: 10.12.22.1, remote_asn: 65000, rp4_in: pass-all, rp4_out: pass-all }
+        - { enable: true, ipv4: 10.11.129.1, remote_asn: 65100, rp4_in: pass-all, rp4_out: pass-all }
 

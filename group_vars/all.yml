@@ -51,17 +51,17 @@ Flex: true
 Flex_Algos:
   - name: 128
     descr: BLUE
-    affinity: exclude-any
-    affinity_color: GREEN
+    # affinity: exclude-any
+    # affinity_color: GREEN
   - name: 129
     descr: RED
-    affinity: exclude-any
-    affinity_color: GREEN
+    # affinity: exclude-any
+    # affinity_color: GREEN
   - name: 130
     descr: DELAY
     metric: delay
-    affinity: exclude-any
-    affinity_color: GREEN
+    # affinity: exclude-any
+    # affinity_color: GREEN
 
 Flex_Affinities:
   - name: GREEN

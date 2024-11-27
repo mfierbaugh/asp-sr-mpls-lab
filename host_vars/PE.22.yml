@@ -66,7 +66,7 @@ route_reflectors:
 sr_policy:
   manual:
     - { name: TEST_SR_POLICY, color: 100, endpoint: 1.1.1.24, metric_type: igp, pce: false, algo: 0 }
-    - { name: NIMBRA_RED_PLANE, color: 106, endpoint: 1.1.1.24, metric_type: igp, pce: false, algo: 129 }
+    - { name: POLICY_RED_PLANE, color: 106, endpoint: 1.1.1.24, metric_type: igp, pce: false, algo: 129 }
 
   odn:
     - { color: 128, metric_type: igp, pce: false, algo: 128 }
@@ -78,7 +78,7 @@ igmp:
 
 services:
   l2transport_interfaces:
-    # - {name: HundredGigE0/0/0/3, descr: "EVPN VPWS P2P NIMBRA DC1", vlan: 0, rewrite: none }
+    # - {name: HundredGigE0/0/0/3, descr: "EVPN VPWS P2P POLICY DC1", vlan: 0, rewrite: none }
 
   l3_interfaces:
 #  - {name: TenGigE0/0/0/0, descr: "Internet Traffic interface", vlan: 1111, ipv4: 11.11.11.1/24, ipv6: '11:11:11:0/127', mtu: 9192}
@@ -91,7 +91,7 @@ services:
     - {name: GigabitEthernet0/0/0/4, descr: "ASP - CE.12 VRF RED", vlan: 102, ipv4: 10.12.22.1/31, ipv6: '2001::10:12:22:1/127'}
 
   evpn_vpws:
-#    - { name: RED_NIMBRA_DC1_NIMBRA_DC2, interface: HundredGigE0/0/0/3, evi: 106, sr_policy: NIMBRA_RED_PLANE }
+#    - { name: RED_POLICY_DC1_POLICY_DC2, interface: HundredGigE0/0/0/3, evi: 106, sr_policy: POLICY_RED_PLANE }
 
 
   l3vpn:

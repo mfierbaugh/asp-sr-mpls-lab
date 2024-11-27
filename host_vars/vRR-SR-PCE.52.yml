@@ -16,8 +16,8 @@ optics:
   - {enable: false}
 
 network_interfaces:
-  - {name: GigabitEthernet0/0/0/0, descr: "CORE.102", remote_id: 102, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 2000, te_metric: 120, mtu: 9000}
-  - {name: GigabitEthernet0/0/0/1, descr: "CORE.104", remote_id: 104, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 2000, te_metric: 120, mtu: 9000}
+  - {name: GigabitEthernet0/0/0/0, descr: "CORE.102", remote_id: 102, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 2000, te_metric: 120, mtu: 8982}
+  - {name: GigabitEthernet0/0/0/1, descr: "CORE.104", remote_id: 104, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 2000, te_metric: 120, mtu: 8982}
 
 
 Flex_Algo_Membership: {128, 129, 130}

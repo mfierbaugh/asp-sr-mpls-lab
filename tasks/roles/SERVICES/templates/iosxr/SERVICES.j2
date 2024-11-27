@@ -7,6 +7,11 @@
 {% include "include/l3vpn/mvpn.j2" %}
 !
 {% endif %}
+{% if vrf_lite and services.vrf_lite is defined %}
+{% include "include/vrf_lite/vrf_lite.j2" %}
+!
+{% include "include/vrf_lite/bgp.j2" %}
+{% endif %}
 {% if services.l2transport_interfaces is defined and services.l2transport_interfaces %}
 {% include "include/interfaces/l2transport_interfaces.j2" %}
 {% endif %}
@@ -51,9 +56,4 @@
 !
 {% include "include/mvpn/igmp.j2" %}
 !
-{% endif %}
-{% if vrf_lite and services.vrf_lite is defined %}
-{% include "include/vrf_lite/vrf_lite.j2" %}
-!
-{% include "include/vrf_lite/bgp.j2" %}
 {% endif %}

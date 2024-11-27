@@ -3,6 +3,8 @@
 {% elif igp == 'ospf' %}
 {% include "include/ospf.j2" %}
 {% endif %}
-{% if vrf_lite and inventory_hostname in groups['ProviderEdge'] %}
+{% if vrf_lite and inventory_hostname in groups['CustomerEdge'] %}
 {% include "include/isis_vrf_lite.j2" %}
 {% endif %}
+ !
+!

@@ -16,16 +16,16 @@ optics:
   - {enable: false}
 
 network_interfaces:
-  - {name: GigabitEthernet0/0/0/0, descr: "ASP - CORE.102", remote_id: 102, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}
-  - {name: GigabitEthernet0/0/0/1, descr: "ASP - CORE.104", remote_id: 104, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}
-  - {name: GigabitEthernet0/0/0/2, descr: "ASP - PE.24", remote_id: 24, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}  
-  - {name: GigabitEthernet0/0/0/3, descr: "ASP - CE.13", remote_id: 13, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 9000}
-  - {name: GigabitEthernet0/0/0/4, descr: "ASP - CE.14", remote_id: 14, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 9000}
+  - {name: GigabitEthernet0/0/0/0, descr: "ASP - CORE.102", remote_id: 102, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}
+  - {name: GigabitEthernet0/0/0/1, descr: "ASP - CORE.104", remote_id: 104, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}
+  - {name: GigabitEthernet0/0/0/2, descr: "ASP - PE.24", remote_id: 24, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}  
+  - {name: GigabitEthernet0/0/0/3, descr: "ASP - CE.13", remote_id: 13, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 8982}
+  - {name: GigabitEthernet0/0/0/4, descr: "ASP - CE.14", remote_id: 14, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 8982}
 
 Flex_Algo_Membership: {128, 129, 130}
 
 Flex_Affinity:
-   - {interface: Bundle-Ether1000, color: GREEN }
+  - {interface: Bundle-Ether1000, color: GREEN }
 
 bfd_multipath:
   - {enable: true, location: 0/RP0/CPU0 }
@@ -51,19 +51,19 @@ ibgp_peers:
 
 
 sr_pce:
-  - ip: 1.1.1.53
-    v6: 53:53:53::53
+  - ip: 1.1.1.51
+    v6: 51:51:51::51
     precedence: 1
-  - ip: 1.1.1.54
-    v6: 54:54:54::54
+  - ip: 1.1.1.52
+    v6: 52:52:52::52
     precedence: 2
 
 route_reflectors:
-  - ip: 1.1.1.53
-    v6: 53:53:53::53
+  - ip: 1.1.1.51
+    v6: 51:51:51::51
     precedence: 1
-  - ip: 1.1.1.54
-    v6: 54:54:54::54
+  - ip: 1.1.1.52
+    v6: 52:52:52::52
     precedence: 2
 
 sr_policy:

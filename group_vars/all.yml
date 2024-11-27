@@ -80,7 +80,7 @@ macsec_key_algo: aes-128-cmac
 macsec_cipher_suite: GCM-AES-128
 
 # Enable VRF-Lite configuration
-vrf_lite: false
+vrf_lite: true
 
 # Enable ipv4
 ipv4: true

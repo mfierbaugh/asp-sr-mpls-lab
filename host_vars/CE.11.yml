@@ -16,7 +16,10 @@ optics:
   - {enable: false}
 
 network_interfaces:
-  - {name: GigabitEthernet0/0/0/2, descr: "ASP - CE.12", remote_id: 12, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}
+  - {name: GigabitEthernet0/0/0/2, descr: "ASP - CE.12", remote_id: 12, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}
+  - {name: GigabitEthernet0/0/0/2.128, descr: "ASP - CE.12", remote_id: 12, vlan: 128, unnumbered: false, igp_inst: ASP_LAB_BLUE, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}
+  - {name: GigabitEthernet0/0/0/2.129, descr: "ASP - CE.12", remote_id: 12, vlan: 129, unnumbered: false, igp_inst: ASP_LAB_RED, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}
+
 
 Flex_Algo_Membership: {128, 129, 130}
 
@@ -66,6 +69,7 @@ services:
       interfaces:
         - { name: GigabitEthernet0/0/0/0.101}
         - { name: GigabitEthernet0/0/0/1.101}
+        - { name: GigabitEthernet0/0/0/2.128}
         - { name: Loopback128 }
       bgp_neighbors:
         - { enable: true, ipv4: 10.11.21.1, remote_asn: 65000, rp4_in: pass-all, rp4_out: pass-all }
@@ -74,8 +78,9 @@ services:
     - name: RED
       vpn_id: 129
       interfaces:
-        - { name: GigabitEthernet0/0/0/0.101}
-        - { name: GigabitEthernet0/0/0/1.101}
+        - { name: GigabitEthernet0/0/0/0.102}
+        - { name: GigabitEthernet0/0/0/1.102}
+        - { name: GigabitEthernet0/0/0/2.129}
         - { name: Loopback129 }
       bgp_neighbors:
         - { enable: true, ipv4: 10.11.21.1, remote_asn: 65000, rp4_in: pass-all, rp4_out: pass-all }

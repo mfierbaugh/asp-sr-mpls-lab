@@ -1,0 +1,12 @@
+---
+# IGP Info specific to Group
+igp_instances:
+  - name: ASP_LAB
+
+vrf_igp_instances:
+  - name: ASP_LAB_BLUE
+    vrf: BLUE
+    vpn_id: 128
+  - name: ASP_LAB_RED
+    vrf: RED
+    vpn_id: 102

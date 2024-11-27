@@ -3,13 +3,13 @@
 {% if interface.vlan != 0 %}
 interface {{ interface.name }}
 {% if "Loopback" not in interface.name %}
-  mtu 9000
+  mtu 8982
 {% endif %}
   no shutdown
 !
 interface {{ interface.name }}.{{ interface.vlan }}
   description *** {{ interface.descr }} ***
-  mtu 9000
+  mtu 8982
   encapsulation dot1q {{ interface.vlan }}
   ipv4 address {{ interface.ipv4 }}
   ipv6 address {{ interface.ipv6 }}
@@ -26,7 +26,7 @@ interface {{ interface.name }}.{{ interface.vlan }}
 interface {{ interface.name }}
   description *** {{ interface.descr }} ***
 {% if "Loopback" not in interface.name %}
-  mtu 9000
+  mtu 8982
 {% endif %}
   ipv4 address {{ interface.ipv4 }}
   ipv6 address {{ interface.ipv6 }}

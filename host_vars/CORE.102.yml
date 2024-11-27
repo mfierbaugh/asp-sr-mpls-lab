@@ -17,12 +17,12 @@ optics:
   - {enable: false}
 
 network_interfaces:
-  - {name: FourHundredGigE0/0/0/0, descr: "ASP - CORE.101", remote_id: 101, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}
-  - {name: FourHundredGigE0/0/0/1, descr: "ASP - CORE.104", remote_id: 104, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}
-  - {name: FourHundredGigE0/0/0/2, descr: "ASP - CORE.103", remote_id: 103, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 9000}  
-  - {name: FourHundredGigE0/0/0/3, descr: "ASP - vRR_SRPCE.52", remote_id: 52, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 9000}
-  - {name: FourHundredGigE0/0/0/4, descr: "ASP - PE.23", remote_id: 23, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 9000}
-  - {name: FourHundredGigE0/0/0/5, descr: "ASP - PE.24", remote_id: 24, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 9000}
+  - {name: FourHundredGigE0/0/0/0, descr: "ASP - CORE.101", remote_id: 101, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}
+  - {name: FourHundredGigE0/0/0/1, descr: "ASP - CORE.104", remote_id: 104, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}
+  - {name: FourHundredGigE0/0/0/2, descr: "ASP - CORE.103", remote_id: 103, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}  
+  - {name: FourHundredGigE0/0/0/3, descr: "ASP - vRR_SRPCE.52", remote_id: 52, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 8982}
+  - {name: FourHundredGigE0/0/0/4, descr: "ASP - PE.23", remote_id: 23, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 8982}
+  - {name: FourHundredGigE0/0/0/5, descr: "ASP - PE.24", remote_id: 24, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 8982}
 
 
 Flex_Algo_Membership: {128, 130}

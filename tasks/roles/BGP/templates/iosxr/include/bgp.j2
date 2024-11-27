@@ -88,6 +88,7 @@ router bgp {{asn}}
   !
  !
 !
+{% if bgp_rrc %}
 {% for host in route_reflectors %}
 {% if ipv4 %}
   neighbor {{ host.ip }}
@@ -100,6 +101,7 @@ router bgp {{asn}}
   !
 {% endif %}
 {% endfor %}
+{% endif %}
   !
 !
 {% if vrf_lite %}

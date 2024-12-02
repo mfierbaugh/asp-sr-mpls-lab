@@ -194,18 +194,16 @@ interconnect_range: 10
 srv6_locators:
   - name: ASP_LAB
     prefix: fcbb:bb00
-  - name: ASP_Blue_Plane
+  - name: ASP_BLUE_Plane
     prefix: fcbb:bb01
     algo: 128
-  - name: ASP_Green_Plane
+  - name: ASP_RED_Plane
     prefix: fcbb:bb02
     algo: 129
-  - name: ASP_Avoid_Red
+  - name: ASP_LowLatency
     prefix: fcbb:bb03
     algo: 130
-  - name: ASP_LowLatency
-    prefix: fcbb:bb04
-    algo: 131
+
 
 # Test veriables
 test_ping: ["1.1.1.51","1.1.1.52"]

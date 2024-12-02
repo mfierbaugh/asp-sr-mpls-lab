@@ -25,10 +25,12 @@ router bgp {{asn}}
  !
  address-family ipv6 unicast
  !
+{% if ipv4 %}
  address-family ipv4 mvpn
   additional-paths receive
   additional-paths send
  !
+{% endif %}
  address-family vpnv4 unicast
   additional-paths receive
   additional-paths send
@@ -75,7 +77,9 @@ router bgp {{asn}}
   !
   address-family ipv4 unicast
   !
+{% if ipv4 %}
   address-family ipv4 mvpn
+{% endif %}
   !
   address-family vpnv4 unicast
    soft-reconfiguration inbound

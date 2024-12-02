@@ -14,9 +14,11 @@ router bgp {{asn}}
  bfd minimum-interval 6500
  bfd multiplier 7
  !
+{% if ipv4 %}
  address-family ipv4 mvpn
   nexthop trigger-delay critical 10
  !
+{% endif %}
  address-family vpnv4 unicast
   nexthop trigger-delay critical 10
   additional-paths receive
@@ -49,17 +51,21 @@ router bgp {{asn}}
   address-family l2vpn evpn
    route-reflector-client
   !
+{% if ipv4 %}
   address-family ipv4 mvpn
    route-reflector-client
   !
+{% endif %}
  neighbor-group LEAF-RRC
   remote-as {{asn}}
   bfd fast-detect
   update-source Loopback0
   !
+{% if ipv4 %}
   address-family ipv4 mvpn
    route-reflector-client
   !
+{% endif %}
   address-family vpnv4 unicast
    route-reflector-client
   !

@@ -1,0 +1,8 @@
+---
+- name: "Building SRv6 Configuration"
+  template: src={{ os }}/SRv6.j2 dest={{ baseconfdir.path }}/06_SRv6.out
+  changed_when: False
+  #when: commit_changes | match('0')
+  #when: commit_changes == '0'
+  tags:
+    - srv6

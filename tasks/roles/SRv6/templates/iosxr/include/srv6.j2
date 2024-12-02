@@ -1,0 +1,60 @@
+{% if igp == 'isis' %}
+{% for isis in igp_instances %}
+router isis {{ isis.name }}
+ distribute link-state
+{% if Flex  %}
+{% for Aff in Flex_Affinities %}
+ affinity-map {{ Aff.name }} bit-position {{ Aff.BitPos }}
+{% endfor %}
+{% for algo in Flex_Algos %}
+{% if algo.name in Flex_Algo_Membership %}
+ flex-algo {{ algo.name }}
+  advertise-definition
+{% if algo.metric is defined %}
+  metric-type {{ algo.metric }}
+{% endif %}
+{% if algo.affinity is defined %}
+  affinity {{ algo.affinity }} {{ algo.affinity_color }}
+{% endif %}
+ !
+{% endif %}
+{% endfor %}
+{% endif %}
+ address-family ipv6 unicast
+  metric-style wide
+  microloop avoidance segment-routing
+  microloop avoidance rib-update-delay 2000
+  segment-routing srv6
+{% for locator in srv6_locators %}
+{% if locator.algo is not defined or locator.algo in Flex_Algo_Membership %}
+   locator {{ locator.name }}
+{% endif %}
+{% endfor %}
+{% if lfa %}
+{% for interface in network_interfaces %}
+ interface {{ interface.name }}
+  address-family ipv6 unicast
+   fast-reroute per-prefix
+   fast-reroute per-prefix ti-lfa level 2
+   fast-reroute per-prefix tiebreaker node-protecting index 100
+{% endfor %} 
+{% endif %}
+{% endfor %}
+segment-routing
+ srv6
+  locators
+{% for locator in srv6_locators %}
+{% if locator.algo is not defined or locator.algo in Flex_Algo_Membership %}
+{% if locator.algo is not defined %}
+   locator {{ locator.name }}
+    micro-segment behavior unode psp-usd
+    prefix {{ locator.prefix }}:{{ '%0x' % id }}::/48
+{% else %}
+   locator {{ locator.name }}
+    micro-segment behavior unode psp-usd
+    prefix {{ locator.prefix }}:{{ '%0x' % id }}::/48
+    algorithm {{ locator.algo }}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}

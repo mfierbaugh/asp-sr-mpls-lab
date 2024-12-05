@@ -98,6 +98,27 @@ topology:
       startup-config: configs/xrd_config.cfg
       mgmt-ipv4: 198.18.130.14
 
+    trex1:
+      kind: linux
+      image: mfierbau/cisco-trex:3.06
+      image-pull-policy: Never
+      mgmt-ipv4: 198.18.130.8
+      exec:
+        - ip addr add 172.100.0.2/24 dev eth1
+        - ip addr add 172.200.0.2/24 dev eth2
+      binds:
+        - configs/trex1_cfg.yaml:/etc/trex_cfg.yaml
+
+    trex2:
+      kind: linux
+      image: mfierbau/cisco-trex:3.06
+      image-pull-policy: Never
+      mgmt-ipv4: 198.18.130.9
+      exec:
+        - ip addr add 172.100.0.2/24 dev eth1
+        - ip addr add 172.200.0.2/24 dev eth2
+      binds:
+        - configs/trex2_cfg.yaml:/etc/trex_cfg.yaml
 
   links:
     - endpoints: ["CORE.101:FH0_0_0_0", "CORE.102:FH0_0_0_0"]
@@ -130,3 +151,7 @@ topology:
     - endpoints: ["vRR-SR-PCE.51:Gi0-0-0-1", "CORE.103:FH0_0_0_3"]
     - endpoints: ["vRR-SR-PCE.52:Gi0-0-0-0", "CORE.102:FH0_0_0_3"]
     - endpoints: ["vRR-SR-PCE.52:Gi0-0-0-1", "CORE.104:FH0_0_0_3"]
+    - endpoints: ["trex1:eth1","CE.11:Gi0-0-0-3"]
+    - endpoints: ["trex1:eth2","CE.13:Gi0-0-0-3"]
+    - endpoints: ["trex2:eth1","CE.12:Gi0-0-0-3"]
+    - endpoints: ["trex2:eth2","CE.14:Gi0-0-0-3"]

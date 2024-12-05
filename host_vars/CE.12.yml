@@ -56,6 +56,8 @@ services:
     - {name: GigabitEthernet0/0/0/0, descr: "ASP - PE.21 VRF RED", vlan: 102, ipv4: 10.12.21.0/31, ipv6: '2001::10:12:21:0/127'}
     - {name: GigabitEthernet0/0/0/1, descr: "ASP - PE.22 VRF BLUE", vlan: 101, ipv4: 10.12.22.0/31, ipv6: '2001::10:12:22:0/127'}
     - {name: GigabitEthernet0/0/0/1, descr: "ASP - PE.22 VRF RED", vlan: 102, ipv4: 10.12.22.0/31, ipv6: '2001::10:12:22:0/127'}
+    - {name: GigabitEthernet0/0/0/3, descr: "TREX1 INTERFACE VRF RED", vlan: 0, ipv4: 172.100.0.1/24, ipv6: '2001::172:100:0:1/64'}
+
           
   vrf_lite:
     - name: BLUE
@@ -76,9 +78,11 @@ services:
         - { name: GigabitEthernet0/0/0/0.102}
         - { name: GigabitEthernet0/0/0/1.102}
         - { name: GigabitEthernet0/0/0/2.129}
+        - { name: GigabitEthernet0/0/0/3 }
         - { name: Loopback129 }
       bgp_neighbors:
         - { enable: true, ipv4: 10.12.21.1, remote_asn: 65000, rp4_in: pass-all, rp4_out: pass-all }
         - { enable: true, ipv4: 10.12.22.1, remote_asn: 65000, rp4_in: pass-all, rp4_out: pass-all }
         - { enable: true, ipv4: 10.11.129.1, remote_asn: 65100, rp4_in: pass-all, rp4_out: pass-all }
-
+      static:
+        - { route: 16.0.0.0/24, dest: 172.100.0.2 }

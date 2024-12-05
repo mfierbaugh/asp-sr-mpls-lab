@@ -19,10 +19,12 @@ router bgp {{ asn }}
    address-family ipv4 unicast
    maximum-paths ebgp 2
    redistribute connected
+   redistribute static
   !
    address-family ipv6 unicast
    maximum-paths ebgp 2
    redistribute connected
+   redistribute static
   !
 {% for neighbor in vrf.bgp_neighbors if neighbor.enable %}
   neighbor {{ neighbor.ipv4 }}

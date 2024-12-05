@@ -11,6 +11,8 @@
 {% include "include/vrf_lite/vrf_lite.j2" %}
 !
 {% include "include/vrf_lite/bgp.j2" %}
+!
+{% include "include/vrf_lite/static.j2" %}
 {% endif %}
 {% if services.l2transport_interfaces is defined and services.l2transport_interfaces %}
 {% include "include/interfaces/l2transport_interfaces.j2" %}

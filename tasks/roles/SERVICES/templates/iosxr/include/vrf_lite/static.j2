@@ -1,0 +1,10 @@
+router static
+{% for vrf in services.vrf_lite %}
+{% if vrf.static is defined %}
+ vrf {{ vrf.name }}
+  address-family ipv4 unicast
+{% for static in vrf.static if static is defined %}
+   {{ static.route }} {{ static.dest }}
+{% endfor %}
+{% endif %}
+{% endfor %}

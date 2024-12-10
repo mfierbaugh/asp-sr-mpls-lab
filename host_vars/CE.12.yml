@@ -56,7 +56,7 @@ services:
     - {name: GigabitEthernet0/0/0/0, descr: "ASP - PE.21 VRF RED", vlan: 102, ipv4: 10.12.21.0/31, ipv6: '2001::10:12:21:0/127'}
     - {name: GigabitEthernet0/0/0/1, descr: "ASP - PE.22 VRF BLUE", vlan: 101, ipv4: 10.12.22.0/31, ipv6: '2001::10:12:22:0/127'}
     - {name: GigabitEthernet0/0/0/1, descr: "ASP - PE.22 VRF RED", vlan: 102, ipv4: 10.12.22.0/31, ipv6: '2001::10:12:22:0/127'}
-    - {name: GigabitEthernet0/0/0/3, descr: "TREX1 INTERFACE VRF RED", vlan: 0, ipv4: 172.100.0.1/24, ipv6: '2001::172:100:0:1/64'}
+    - {name: GigabitEthernet0/0/0/3, descr: "TREX1 INTERFACE VRF RED", vlan: 0, ipv4: 172.100.0.1/24, ipv6: '2001::172:100:0:1/96'}
 
           
   vrf_lite:

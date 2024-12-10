@@ -22,7 +22,7 @@
         username: "{{ ansible_user }}"
         dev_os: "{{ napalm_driver }}"
         password: "{{ ansible_password }}"
-        optional_args: {'hostkey_verify': False, 'allow_agent': False, 'look_for_keys': False }
+        # optional_args: {'hostkey_verify': False, 'allow_agent': False, 'look_for_keys': False }
         replace_config: false
         config_file: "{{ playbook_dir }}/../compiled/{{ inventory_hostname }}/running.conf"
         commit_changes: "0"

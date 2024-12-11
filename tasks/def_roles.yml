@@ -1,6 +1,6 @@
 ---
 - name: Configure Baseconfig Dataplane for all devices
-  hosts: all
+  hosts: routers
   gather_facts: no
   connection: local
 

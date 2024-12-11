@@ -17,7 +17,7 @@
         - base
 
 - name: Build site configuration
-  hosts: all
+  hosts: routers
   connection: local
   gather_facts: no
 
@@ -57,6 +57,17 @@
 # - import_playbook : tasks/build_cnc_files.yml
 - import_playbook : tasks/def_roles.yml
 - import_playbook : tasks/assemble_push_conf.yml
+
+- name: Restart Trex
+  hosts: TREX
+  vars:
+    ansible_host_key_checking: false
+  gather_facts: no
+
+  post_tasks:
+    - name: Restart Trex
+      shell: supervisorctl restart trex
+
 
 - name: Final Output
   hosts: localhost

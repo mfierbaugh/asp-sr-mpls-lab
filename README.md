@@ -29,4 +29,19 @@ To run the playbook without committing changes:
 
 To run the playbook committing the changes:
 
-    ansible-playbook -i hosts.yml clab_master_playbook.yml -e "commit_changes=1"
+    ansible-playbook -i hosts.yml lab_master_playbook.yml -e "commit_changes=1"
+
+
+# Start T-REX 
+
+# Start the interactive trex console which will make a local connection to the running interactive daemon
+./trex-console
+
+# Start generating some traffic
+start -f stl/imix.py
+
+# To interact with and view statistics for the current stream launch the text-based user interface (tui)
+tui
+
+# Attempt to increase per interface traffic rate to 200mbps (400mbps rx/tx total). Throughput achievable in the Docker environment is dependent primarily on single core\thread CPU performance.
+update -m 200mbps

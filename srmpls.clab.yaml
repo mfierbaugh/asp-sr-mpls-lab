@@ -17,7 +17,7 @@ topology:
         
     xrd:
       kind: cisco_xrd
-      image: ${XRD_IMAGE:=ios-xr/xrd-control-plane}:${XRD_VERSION:=24.3.1}
+      image: ${XRD_IMAGE:=ios-xr/xrd-control-plane}:${XRD_VERSION:=24.4.1}
       env:
         CLAB_MGMT_VRF: Mgmt-intf
         IPv4_GW: 198.18.128.1
@@ -26,25 +26,25 @@ topology:
   nodes:
     CORE.101:
       kind: c8000
-      image: 8212-48fh-m_clab325:24.2.2
+      image: 8212-48fh-m_clab333:24.4.1
       startup-config: configs/base_config.cfg
       mgmt-ipv4: 198.18.130.101
 
     CORE.102:
       kind: c8000
-      image: 8212-48fh-m_clab325:24.2.2
+      image: 8212-48fh-m_clab333:24.4.1
       startup-config: configs/base_config.cfg
       mgmt-ipv4: 198.18.130.102
 
     CORE.103:
       kind: c8000
-      image: 8711-32fh-m_clab324:24.2.2
+      image: 8711-32fh-m_clab332:24.4.1
       startup-config: configs/base_config.cfg
       mgmt-ipv4: 198.18.130.103
 
     CORE.104:
       kind: c8000
-      image: 8711-32fh-m_clab324:24.2.2
+      image: 8711-32fh-m_clab332:24.4.1
       startup-config: configs/base_config.cfg
       mgmt-ipv4: 198.18.130.104
 

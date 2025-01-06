@@ -77,7 +77,6 @@ router isis {{ isis.name }}
 {%elif lfa and sr%}
    fast-reroute per-prefix
    fast-reroute per-prefix ti-lfa level 2
-   fast-reroute per-prefix remote-lfa tunnel mpls-ldp level 2
    fast-reroute per-prefix tiebreaker node-protecting index 100
 {%endif%}
 {% endif %}

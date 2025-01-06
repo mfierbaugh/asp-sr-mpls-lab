@@ -1,6 +1,6 @@
 ---
 - name: Assemble and Push configuration
-  hosts: all
+  hosts: routers
   connection: local
   gather_facts: no
 

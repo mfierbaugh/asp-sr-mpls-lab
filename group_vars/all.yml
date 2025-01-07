@@ -89,7 +89,7 @@ ipv4: true
 client_ipv4: true
 
 # Enable ipv6 
-ipv6: true
+ipv6: false
 
 # Enable client interfaces ipv6
 client_ipv6: true
@@ -119,7 +119,7 @@ mpls_mldp: false
 rp_address: 10.200.200.1
 
 #Prefer SR
-sr_prefer: true
+sr_prefer: false
 
 # Enable MPLS Traffic Engineering
 mpls_te: false

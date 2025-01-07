@@ -39,9 +39,9 @@ start -f stl/imix.py
 tui
 ```
 
-## Attempt to increase per interface traffic rate to 200mbps (400mbps rx/tx total). Throughput achievable in the Docker environment is dependent primarily on single core\thread CPU performance.
+## Attempt to increase per interface traffic rate to 100mbps (200mbps rx/tx total). Throughput achievable in the Docker environment is dependent primarily on single core\thread CPU performance.
 ```
-update -m 200mbps
+update -m 100mbps
 ```
 
 # Run playbooks directly

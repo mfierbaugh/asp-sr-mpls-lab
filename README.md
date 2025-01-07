@@ -6,11 +6,16 @@ This lab is meant for use with the ASP Containerlab enviornment in Cisco's dclou
 
 ## Features 
 Features in this playbook:
- - Segment Routing using ISIS or OSPF
+ - Segment Routing using ISIS
  - Transport Independant Loop Free Alternate (TI-LFA)
  - Segment Routing Performance Measurement (SR-PM)
  - Flexable Algorithm
- - Core [QOS](Qos.md)
+
+## Devices 
+- Cisco XRd running IOS-XR 24.4.1 (PE and CE)
+- Cisco 8212-48FH-M running IOS-XR 24.4.1 (CORE.101, CORE.102)
+- Cisco 8711-32FH-M running IOS-XR 24.4.1 (CORE.103, CORE.104)
+- Cisco T-Rex ver 3.06 (Trex-1, Trex-2)
 
 Configurations are working examples of Cisco Converged SDN Transport (https://xrdocs.io/design/blogs/latest-converged-sdn-transport-ig)
 

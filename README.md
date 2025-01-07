@@ -31,22 +31,23 @@ WARNING - this is a full commit replace and will restore the Converged SDN Trans
 # Start T-REX 
 Once the lab configuration has been committed (config_lab), open a terminal and ssh to each of the trex nodes (trex-1 and trex-2)
 
-## Start the interactive trex console which will make a local connection to the running interactive daemon
+Start the interactive trex console which will make a local connection to the running interactive daemon
 ```
 ./trex-console
 ```
 
-## Start generating some traffic
+Start generating traffic using the built-in imix profile
 ```
 start -f stl/imix.py
 ```
 
-## To interact with and view statistics for the current stream launch the text-based user interface (tui)
+To interact with and view statistics for the current stream launch the text-based user interface (tui)
 ```
 tui
 ```
 
-## Attempt to increase per interface traffic rate to 100mbps (200mbps rx/tx total). Throughput achievable in the Docker environment is dependent primarily on single core\thread CPU performance.
+Attempt to increase per interface traffic rate to 100mbps (200mbps rx/tx total). Throughput achievable in the Docker environment is dependent primarily on single core\thread CPU performance.
+
 ```
 update -m 100mbps
 ```

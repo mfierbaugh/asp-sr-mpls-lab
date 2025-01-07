@@ -2,6 +2,8 @@
 # Introduction to SR-MPLS Lab
 This lab is meant for use with the ASP Containerlab enviornment in Cisco's dcloud.  Please refer to the following (https://github.com/mfierbaugh/asp-containerlab)
 
+![Topology](topology.png)
+
 ## Features 
 Features in this playbook:
  - Segment Routing using ISIS or OSPF

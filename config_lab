@@ -1,6 +1,21 @@
 #!/bin/bash
 
-# switch comment to line below (commit_changes=1) for dry-run
-# ansible-playbook -i hosts.yml lab_master_playbook.yml -e "commit_changes=0"
-ansible-playbook -i hosts.yml lab_master_playbook.yml -e "commit_changes=1"
-
+case "$1" in
+    "ldp-sr")
+        echo "Configuring Lab for MPLS LDP and SR..."
+        sleep 2
+        ansible-playbook -i hosts.yml lab_master_playbook.yml -e "commit_changes=1 mpls_ldp=true"
+        ;;
+    "sr-prefer")
+        echo "Configuring Lab for MPLS LDP and SR with SR prefer"
+        sleep 2
+        ansible-playbook -i hosts.yml lab_master_playbook.yml -e "commit_changes=1 mpls_ldp=true sr_prefer=true"
+        ;;
+    *)
+        echo "Configuring Lab with default paramters (SR-MPLS)"
+        sleep 2
+        # switch comment to line below (commit_changes=1) for dry-run
+        # ansible-playbook -i hosts.yml lab_master_playbook.yml -e "commit_changes=0"
+        ansible-playbook -i hosts.yml lab_master_playbook.yml -e "commit_changes=1"
+        ;;
+esac

@@ -1,0 +1,18 @@
+srlg
+{% for srlg in srlg %}
+ name {{ srlg.name }}
+  value {{ srlg.value }}
+{% endfor %}
+!
+{% for interface in srlg_interfaces %}
+ interface {{ interface.name }}
+  name {{ interface.srlg }}
+{% endfor %}
+ !
+!
+{% for isis in igp_instances %}
+router isis {{ isis.name }}
+  address-family ipv4 unicast
+    advertise application lfa link-attributes srlg
+ !
+{% endfor %}

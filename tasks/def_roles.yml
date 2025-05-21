@@ -53,6 +53,7 @@
   - MPLS_TE
   - PCE
   - QOS
+  - SRLG
 
 - name: Configure SRPCE and Route Reflectors
   hosts: VRR

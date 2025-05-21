@@ -103,6 +103,21 @@ lfa: true
 # enable SR-MPLS
 sr: true
 
+# Enable Shared Risk Link Groups
+srlg_enable: true
+
+srlg:
+  - name: CORE_LINK1
+    value: 10
+  - name: CORE_LINK2
+    value: 20
+  - name: CORE_LINK3
+    value: 30
+  - name: CORE_LINK4
+    value: 40
+  - name: CORE_LINK5
+    value: 50
+
 # Enable SRv6 uSID
 srv6: false
 

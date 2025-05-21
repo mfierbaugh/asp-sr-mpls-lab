@@ -24,6 +24,11 @@ network_interfaces:
   - {name: FourHundredGigE0/0/0/4, descr: "ASP - PE.21", remote_id: 21, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 8982}
   - {name: FourHundredGigE0/0/0/5, descr: "ASP - PE.22", remote_id: 22, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 8982}
 
+srlg_interfaces:
+  - name: FourHundredGigE0/0/0/0
+    srlg: CORE_LINK2
+  - name: FourHundredGigE0/0/0/2
+    srlg: CORE_LINK2
 
 Flex_Algo_Membership: {129, 130}
 

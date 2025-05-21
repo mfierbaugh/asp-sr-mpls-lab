@@ -78,7 +78,10 @@ router isis {{ isis.name }}
    fast-reroute per-prefix
    fast-reroute per-prefix ti-lfa level 2
    fast-reroute per-prefix tiebreaker node-protecting index 100
-{%endif%}
+{% if srlg_enable %}
+   fast-reroute per-prefix tiebreaker srlg-disjoint index 200
+{% endif %}
+{% endif %}
 {% endif %}
 {% if ipv6 and isis_afi is not defined or ipv6 and isis_afi == 'ipv6'%}
   !
